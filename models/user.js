@@ -92,4 +92,41 @@ User.list = function(q,callback){
     });
 }
 
+User.ask = function(ask, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('question', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.insert(ask, {safe: true}, function(err, result){
+                mongodb.close();
+                callback(err, result);
+            });
+        });
+    });
+}
+
+User.getQuestion = function(callback){
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.find().sort({time: -1}).toArray(function(err, items){
+                mongodb.close();
+                return callback(items);
+            });
+        })
+    })
+}
 

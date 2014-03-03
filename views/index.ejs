@@ -20,7 +20,47 @@
             <h1><a href="/reg">register</a></h1>
             <h1><a href="/login">login</a></h1>
         </div>
+        <ul>
+            <% for(var i=0; i<list.length; i++) {%>
+            <li style="background-color: pink;">
+                <h1><%= list[i].title %></h1>
+                <%= list[i].content %>
+            </li>
+            <% } %> 
+        </ul>  
     </div>
 </div>
 <div class = "rightbar fx"></div>
-
+<div class = "askBoxCover"></div>
+<div class = "askBox">
+    <form method="post">
+        <input type="text" name="title" class="askBoxText" placeholder="标题" />
+        <textarea name="content" class="askBoxTextarea" placeholder="内容"></textarea>
+        <input type="button" value="取消" id="askBoxCancel" />
+        <input type="button" value="提交" id="askBoxSubmit" />
+    </form>
+</div>
+<script>
+    $(function(){
+        $("#askBtn").on("click", function(){
+            $(".askBoxCover").show();
+            $(".askBox").show();
+        });
+        $("#askBoxCancel").on("click", function(){
+            $(".askBoxCover").hide();
+            $(".askBox").hide();
+        });
+        $("#askBoxSubmit").on("click", function(){
+            $.post("ask", {
+                title: $(".askBoxText").val(),
+                content: $(".askBoxTextarea").val()
+            }, function(data){
+                if(data.status === "ok"){
+                    alert("hi");
+                    window.location.reload();
+                    //console.log(data);
+                }
+            });
+        });
+    });
+</script>
