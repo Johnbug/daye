@@ -10,11 +10,13 @@
     "ejs": "*",
     "mongodb": "*",
     "connect-mongo": "*",
-      "connect-flash": "*",
-      "request": "*",
-      "cheerio": "*",
-      "socket.io": "*",
-      "gm": "*",
-      "node-images": "*"
+    "connect-flash": "*",
+    "request": "*",
+    "cheerio": "*",
+    "socket.io": "*",
+    "gm": "*",
+    "node-images": "*",
+    "generic-pool":"*"
+
   }
 }
