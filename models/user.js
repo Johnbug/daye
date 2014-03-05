@@ -101,7 +101,6 @@ User.ask = function(ask, callback){
 
                 return callback(err);
             }
-<<<<<<< HEAD
             collection.find().sort({time: -1}).toArray(function(err, result){
                 if(result.length === 0){
                     ide = 0;
@@ -109,16 +108,14 @@ User.ask = function(ask, callback){
                     ide = result[0]._id + 1;
                 }
                 ask._id = ide;
+                // collection.insert(ask, {safe: true}, function(err, result){
+                //     mongodb.close();
+                //     callback(err, result);
+                // });
                 collection.insert(ask, {safe: true}, function(err, result){
-                    mongodb.close();
-                    callback(err, result);
+                      callback(err, result);
+                      pool.release(db);
                 });
-=======
-            collection.insert(ask, {safe: true}, function(err, result){
-
-                callback(err, result);
-                pool.release(db);
->>>>>>> 6d4a3a04fc16b2623e9342f5d17cb726e69651bc
             });
         });
     });
@@ -136,8 +133,8 @@ User.getQuestion = function(callback){
                 return callback(err);
             }
             collection.find().sort({time: -1}).toArray(function(err, items){
-<<<<<<< HEAD
-                mongodb.close();
+//<<<<<<< HEAD
+                pool.release(db);
                 return callback(err, items);
             });
         });
@@ -145,58 +142,50 @@ User.getQuestion = function(callback){
 }
 
 User.findQuestion = function(id, callback){
-    mongodb.open(function(err, db){
+    mongodb.doMongo(function(db, pool, err){
         if(err){
-            mongodb.close();
             return callback(err);
         }
         db.collection("question", function(err, collection){
             if(err){
-                mongodb.close();
                 return callback(err);
             }
             collection.findOne({_id: Number(id)}, function(err, result){
                 if(err){
-                    mongodb.close();
                     return callback(err);
-                }else{
-                    mongodb.close();
-                    return callback(err, result);
                 }
+                pool.release(db);
+                return callback(err, result);
             });
         });
     });
-=======
+//=======
 
-                return callback(items);
-            });
-            pool.release(db);
-        })
-    })
->>>>>>> 6d4a3a04fc16b2623e9342f5d17cb726e69651bc
+    //             return callback(items);
+    //         });
+    //         pool.release(db);
+    //     })
+    // })
+//>>>>>>> 6d4a3a04fc16b2623e9342f5d17cb726e69651bc
 }
 
 User.answer = function(id, answer, callback){
-    mongodb.open(function(err, db){
+    mongodb.doMongo(function(db, pool, err){
         if(err){
-            mongodb.close();
             return callback(err);
         }
         db.collection("question", function(err, collection){
             if(err){
-                mongodb.close();
                 return callback(err);
             }
             collection.findOne({_id: Number(id)}, function(err, result){
                 answer.num = result.answer.length;
                 collection.update({_id: Number(id)}, {$push: {answer: answer}}, function(err, result){
                     if(err){
-                        mongodb.close();
                         return callback(err);
-                    }else{
-                        mongodb.close();
-                        return callback(err, result);
                     }
+                    pool.release(db);
+                    return callback(err, result);
                 });
             });
         });
@@ -204,38 +193,32 @@ User.answer = function(id, answer, callback){
 }
 
 User.vote = function(id, num, vote, callback){
-    mongodb.open(function(err, db){
+    mongodb.doMongo(function(db, pool, err){
         if(err){
-            mongodb.close();
             return callback(err);
         }
         db.collection("question", function(err, collection){
             var attr;
             if(err){
-                mongodb.close();
                 return callback(err);
             }
             if(vote > 0){
                 collection.update({_id: Number(id), "answer.num": Number(num)}, {$inc: {"answer.$.up": 1}}, function(){});
                 collection.findOne({_id: Number(id)}, function(err, result){
                    if(err){
-                        mongodb.close();
                         return callback(err);
-                    }else{
-                        mongodb.close();
-                        return callback(err, result);
                     }
+                    pool.release(db);
+                    return callback(err, result);
                 });
             }else{
                 collection.update({_id: Number(id), "answer.num": Number(num)}, {$inc: {"answer.$.down": 1}}, function(){});
                 collection.findOne({_id: Number(id)}, function(err, result){
                    if(err){
-                        mongodb.close();
                         return callback(err);
-                    }else{
-                        mongodb.close();
-                        return callback(err, result);
                     }
+                    pool.release(db);
+                    return callback(err, result);
                 });
             }
         });
