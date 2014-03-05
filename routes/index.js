@@ -18,7 +18,7 @@ var routesTable = {
 
 module.exports = function(app){
     app.get('/',function(req,res){
-        User.getQuestion(function(ques){
+        User.getQuestion(function(err, ques){
             res.render('index', { title: 'daye', list: ques });
         });
     });
@@ -118,6 +118,8 @@ module.exports = function(app){
         que.title = req.body.title;
         que.content = req.body.content;
         que.answer = [];
+        que.up = 0;
+        que.down = 0;
         que.time = new Date();
         User.ask(que, function(err, result){
             if(err){
@@ -125,6 +127,47 @@ module.exports = function(app){
                 return res.redirect("/");
             }
             res.send({"status": "ok"});
+        });
+    });
+
+    //answer page
+    app.get('/question/:id', function(req, res){
+        User.findQuestion(req.params.id, function(err, result){
+            if(err){
+                req.flash('error', err);
+                return res.redirect("/");
+            }
+            res.render('question', {'title': "question",'question': result});
+        });
+    });
+
+    //answer question
+    app.post('/answer', function(req, res){
+        var answer = {};
+        var id = req.body.id;
+        answer.content = req.body.content;
+        answer.up = 0;
+        answer.down = 0;
+        //answer.user = ;
+        User.answer(id, answer, function(err, result){
+            if(err){
+                req.flash('error', err);
+            }
+            res.redirect("/question/" + id);
+        });
+    });
+
+    //vote answer
+    app.post('/vote', function(req, res){
+        var vote = req.body.value;  //顶或者踩
+        var id = req.body.id;   //问题id
+        var num = req.body.num; //第几个answer
+        User.vote(id, num, vote, function(err, result){
+            console.log(num);
+            if(err){
+                req.flash('error', err);
+            }
+            res.send({"question": result});
         });
     });
 };

@@ -103,9 +103,17 @@ User.ask = function(ask, callback){
                 mongodb.close();
                 return callback(err);
             }
-            collection.insert(ask, {safe: true}, function(err, result){
-                mongodb.close();
-                callback(err, result);
+            collection.find().sort({time: -1}).toArray(function(err, result){
+                if(result.length === 0){
+                    ide = 0;
+                }else{
+                    ide = result[0]._id + 1;
+                }
+                ask._id = ide;
+                collection.insert(ask, {safe: true}, function(err, result){
+                    mongodb.close();
+                    callback(err, result);
+                });
             });
         });
     });
@@ -124,9 +132,98 @@ User.getQuestion = function(callback){
             }
             collection.find().sort({time: -1}).toArray(function(err, items){
                 mongodb.close();
-                return callback(items);
+                return callback(err, items);
             });
-        })
-    })
+        });
+    });
 }
 
+User.findQuestion = function(id, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.findOne({_id: Number(id)}, function(err, result){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }else{
+                    mongodb.close();
+                    return callback(err, result);
+                }
+            });
+        });
+    });
+}
+
+User.answer = function(id, answer, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.findOne({_id: Number(id)}, function(err, result){
+                answer.num = result.answer.length;
+                collection.update({_id: Number(id)}, {$push: {answer: answer}}, function(err, result){
+                    if(err){
+                        mongodb.close();
+                        return callback(err);
+                    }else{
+                        mongodb.close();
+                        return callback(err, result);
+                    }
+                });
+            });
+        });
+    });
+}
+
+User.vote = function(id, num, vote, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            var attr;
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            if(vote > 0){
+                collection.update({_id: Number(id), "answer.num": Number(num)}, {$inc: {"answer.$.up": 1}}, function(){});
+                collection.findOne({_id: Number(id)}, function(err, result){
+                   if(err){
+                        mongodb.close();
+                        return callback(err);
+                    }else{
+                        mongodb.close();
+                        return callback(err, result);
+                    }
+                });
+            }else{
+                collection.update({_id: Number(id), "answer.num": Number(num)}, {$inc: {"answer.$.down": 1}}, function(){});
+                collection.findOne({_id: Number(id)}, function(err, result){
+                   if(err){
+                        mongodb.close();
+                        return callback(err);
+                    }else{
+                        mongodb.close();
+                        return callback(err, result);
+                    }
+                });
+            }
+        });
+    });
+}

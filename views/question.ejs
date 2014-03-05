@@ -1,0 +1,42 @@
+<h1><%= question.title %></h1>
+<p><%= question.content %></p>
+<ul>
+	<% for(var i=0; i<question.answer.length; i++) {%>
+        <li style="background-color: pink;">
+             <%= question.answer[i].content %>
+             <input type="button" class="upBtn" myId="<%= question._id %>" num="<%= question.answer[i].num %>" value="up(<%= question.answer[i].up %>)" />
+             <input type="button" class="downBtn" myId="<%= question._id %>" num="<%= question.answer[i].num %>" value="down(<%= question.answer[i].down %>)" />
+        </li>
+    <% } %> 
+</ul>
+<form method="post" action="/answer">
+	<input type="hidden" name="id" value="<%= question._id %>" />
+	<textarea name="content" placeholder="comment.."></textarea>
+	<input type="submit" value="submit" />
+</form>
+<script>
+	$(function(){
+		$(".upBtn").on("click", function(){
+			var num = $(this).attr("num");
+			var that = $(this);
+			$.post("/vote", {
+				value: 1,
+				id: $(this).attr("myId"),
+				num: $(this).attr("num")
+			}, function(data){
+				that.attr("value", "up(" + data.question.answer[num].up + ")");
+			});
+		});
+		$(".downBtn").on("click", function(){
+			var num = $(this).attr("num");
+			var that = $(this);
+			$.post("/vote", {
+				value: -1,
+				id: $(this).attr("myId"),
+				num: $(this).attr("num")
+			}, function(data){
+				that.attr("value", "down(" + data.question.answer[num].down + ")");
+			});
+		});
+	});
+</script>

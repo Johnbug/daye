@@ -23,7 +23,9 @@
         <ul>
             <% for(var i=0; i<list.length; i++) {%>
             <li style="background-color: pink;">
-                <h1><%= list[i].title %></h1>
+                <a href="/question/<%= list[i]._id %>">
+                    <h1><%= list[i].title %></h1>
+                </a>
                 <%= list[i].content %>
             </li>
             <% } %> 
@@ -56,7 +58,6 @@
                 content: $(".askBoxTextarea").val()
             }, function(data){
                 if(data.status === "ok"){
-                    alert("hi");
                     window.location.reload();
                     //console.log(data);
                 }
