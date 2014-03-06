@@ -45,8 +45,12 @@
 <script>
     $(function(){
         $("#askBtn").on("click", function(){
-            $(".askBoxCover").show();
-            $(".askBox").show();
+            <% if(curUser){ %>
+                $(".askBoxCover").show();
+                $(".askBox").show();
+            <% }else{ %>
+                alert("Please login first!");
+            <% } %>
         });
         $("#askBoxCancel").on("click", function(){
             $(".askBoxCover").hide();

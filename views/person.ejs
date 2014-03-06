@@ -1,0 +1,23 @@
+<% if(user){ %>
+	<h1><%= user.name %></h1>
+	<ul>
+		<li>性别：<%= user.sex %></li>
+		<li>个性签名：<%= user.signature %></li>
+		<li>专业：<%= user.major %></li>
+		<li>等级：<%= user.level %></li>
+		<% if(curUser.name === user.name){ %>
+			<input type="button" value="编辑" />
+		<% } %>
+	</ul>
+	<h3>提过的问题</h3>
+	<ul>
+		<% for(var i=0; i<questions.length; i++){ %>
+			<li>
+				<h4>标题：<%= questions[i].title %></h4>
+				<p>内容：<%= questions[i].content %></p>
+			</li>
+		<% } %>
+	</ul>
+<% }else{ %>
+	<h1>该用户还不存在！</h1>
+<% } %>

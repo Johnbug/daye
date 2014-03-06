@@ -114,13 +114,11 @@ module.exports = function(app){
     //ask
     app.post('/ask', function(req,res){
         var que = {};
-        que.name = req.session.user;
         que.title = req.body.title;
         que.content = req.body.content;
         que.answer = [];
-        que.up = 0;
-        que.down = 0;
         que.time = new Date();
+        que.user = req.session.user.name;
         User.ask(que, function(err, result){
             if(err){
                 req.flash('error', err);
@@ -148,7 +146,7 @@ module.exports = function(app){
         answer.content = req.body.content;
         answer.up = 0;
         answer.down = 0;
-        //answer.user = ;
+        answer.user = req.session.user.name;
         User.answer(id, answer, function(err, result){
             if(err){
                 req.flash('error', err);
@@ -163,11 +161,27 @@ module.exports = function(app){
         var id = req.body.id;   //问题id
         var num = req.body.num; //第几个answer
         User.vote(id, num, vote, function(err, result){
-            console.log(num);
             if(err){
                 req.flash('error', err);
             }
             res.send({"question": result});
+        });
+    });
+
+    //user page
+    app.get('/user/:id', function(req, res){
+        User.info(req.params.id, function(err, result){
+            if(err){
+                req.flash('error', err);
+            }
+            User.getUserQuestion(req.params.id, function(err, questions){
+                if(err){
+                    req.flash('error', err);
+                }
+                User.getUserAnswer(req.params.id, function(err, answers){
+                    res.render('person', {"title": req.params.id, "user": result, "questions": questions});
+                })
+            });
         });
     });
 };

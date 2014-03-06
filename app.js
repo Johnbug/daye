@@ -36,6 +36,15 @@ app.use(express.session({
     })
 }));
 
+app.use(function(req, res, next){
+	var err = req.flash('error'),
+    success = req.flash('success');
+	res.locals.curUser = req.session.user;
+	res.locals.error = err.length ? err : null;
+	res.locals.success = success.length ? success : null;
+	next();
+});
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 

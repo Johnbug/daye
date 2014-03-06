@@ -6,6 +6,10 @@ var mongodb = require('./db');
 function User(user){
     this.name = user.name;
     this.password = user.password;
+    this.sex = user.sex;
+    this.major = user.major;
+    this.signature = user.signature;
+    this.level = user.level;
 };
 
 module.exports = User;
@@ -14,7 +18,11 @@ User.prototype.save = function(callback) {//存储用户信息
     //要存入数据库的用户文档
     var user = {
         name: this.name,
-        password: this.password
+        password: this.password,
+        sex: this.sex,
+        major: this.major,
+        signature: this.signature,
+        level: this.level
     };
 
     mongodb.doMongo(function(db,pool,err){
@@ -98,7 +106,6 @@ User.ask = function(ask, callback){
         }
         db.collection('question', function(err, collection){
             if(err){
-
                 return callback(err);
             }
             collection.find().sort({time: -1}).toArray(function(err, result){
@@ -222,5 +229,66 @@ User.vote = function(id, num, vote, callback){
                 });
             }
         });
+    });
+}
+
+User.info = function(name, callback){
+    mongodb.doMongo(function(db, pool, err){
+        if(err){
+            return callback(err);
+        }
+        db.collection("users", function(err, collection){
+            if(err){
+                return callback(err);
+            }
+            collection.findOne({name: name}, function(err, result){
+                if(err){
+                    return callback(err);
+                }
+                pool.release(db);
+                return callback(err, result);
+            });
+        });
+    });
+}
+
+//获得用户的所有提问
+User.getUserQuestion = function(name, callback){
+    mongodb.doMongo(function(db, pool, err){
+        if(err){
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            if(err){
+                return callback(err);
+            }
+            collection.find({user: name}).sort({time: -1}).toArray(function(err, result){
+                if(err){
+                    return callback(err);
+                }
+                return callback(err, result);
+            });
+        }); 
+    });
+}
+
+//获得用户的所有回答
+User.getUserAnswer = function(name, callback){
+    mongodb.doMongo(function(db, pool, err){
+        if(err){
+            return callback(err);
+        }
+        db.collection("question", function(err, collection){
+            if(err){
+                return callback(err);
+            }
+            collection.find({"answer.user": name}, {"_id": 0,"answer": 1}).sort({time: -1}).toArray(function(err, result){
+                console.log(result);
+                if(err){
+                    return callback(err);
+                }
+                return callback(err, result);
+            });
+        })
     });
 }
