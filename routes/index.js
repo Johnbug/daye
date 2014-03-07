@@ -179,10 +179,32 @@ module.exports = function(app){
                     req.flash('error', err);
                 }
                 User.getUserAnswer(req.params.id, function(err, answers){
-                    res.render('person', {"title": req.params.id, "user": result, "questions": questions});
+                    if(err){
+                        req.flash('error', err);
+                    }
+                    res.render('person', {
+                        "title": req.params.id, 
+                        "user": result, 
+                        "questions": questions,
+                        "answers": answers
+                    });
                 })
             });
         });
     });
-};
 
+    //编辑个人信息
+    app.post('/user/edit', function(req, res){
+        var user = {};
+        user.sex = req.body.sex;
+        user.signature = req.body.signature;
+        user.major = req.body.major;
+        user.name = req.session.user.name;
+        User.editUser(user, function(err, result){
+            if(err){
+                req.flash('error', err);
+            }
+            res.redirect("/user/" + user.name);
+        });
+    });
+};
