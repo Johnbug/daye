@@ -1,0 +1,52 @@
+<% include header.ejs %>
+<div class = "body-main" id="body-main">
+    <div class="main-logo">
+        <h2 class="text-center">校园在线问答</h2>
+        <h3 class="text-center">没有坏问题，只有好答案</h3>
+    </div>
+    <div class="main-content block-center">
+        <div class="content-user-container clearfix">
+            <div class="content-user fl text-center">
+                <a href="/reg" class="flat-ui-btn">注册</a>
+            </div>
+            <div class="content-user fl text-center">
+                <a href="/login" class="flat-ui-btn">登录</a>
+            </div>
+        </div>
+        <div class="content-hot">
+            <h3 class="bighead">热门问题</h3>
+            <div class="hot-content">
+                <ul>
+                    <li class="clearfix">
+                        <div class="question-user fl text-center">
+                            <span class="user-img">
+                                <img src="../images/search.png" />
+                            </span>
+                        </div>
+                        <div class="question-title fl">
+                            那些年入上百万的人是如何做到的？这一人群的平均年龄是多少？
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <div class="question-user fl text-center">
+                            <span class="user-img">
+                                <img src="../images/search.png" />
+                            </span>
+                        </div>
+                        <div class="question-title fl">
+                            那些年入上百万的人是如何做到的？这一人群的平均年龄是多少？
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src = "/javascripts/lib/sea.js"></script>
+<script>
+    seajs.config({base: "/javascripts/sea_modules"})
+    seajs.use('index',function(index){
+        index.init();
+    });
+</script>
