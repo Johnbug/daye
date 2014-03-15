@@ -1,0 +1,9 @@
+<% include header.ejs %>
+
+<% include footer.ejs %>
+<script>
+    seajs.config({base: "/javascripts/sea_modules"})
+    seajs.use('index',function(index){
+        index.init();
+    });
+</script>

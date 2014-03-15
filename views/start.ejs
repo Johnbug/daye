@@ -43,10 +43,10 @@
     </div>
 </div>
 
-<script src = "/javascripts/lib/sea.js"></script>
+<% include footer.ejs %>
 <script>
     seajs.config({base: "/javascripts/sea_modules"})
-    seajs.use('index',function(index){
-        index.init();
+    seajs.use('index',function(start){
+        start.init();
     });
 </script>

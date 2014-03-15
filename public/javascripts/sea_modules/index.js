@@ -4,14 +4,8 @@
 define(function(require, exports,module){
     var index = {
         init : function(){
-            $("#brand").delay(1000).animate({"fontSize":"2em",'top':0},1000,function(){
-                $(this).css({'backgroundColor':'#3498db'});
-                $("#body-main").animate({'paddingTop':'50px'},1000,function(){
-                    $($(".main-logo h2")[0]).fadeIn();
-                    $(".main-logo h3").fadeIn();
-                });
-
-            });
+            $("#brand").css({top:0,fontSize:'2em','backgroundColor':'#3498db'});
+            $("#brand").delay(500).animate({width:"10%"},1000);
 
         },
         _render : function(data){

@@ -19,7 +19,7 @@ var routesTable = {
 module.exports = function(app){
     app.get('/',function(req,res){
         User.getQuestion(function(err, ques){
-            res.render('index', { title: 'daye', list: ques });
+            res.render('index-1', { title: 'daye', list: ques });
         });
     });
 
