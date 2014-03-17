@@ -16,7 +16,7 @@
     "socket.io": "*",
     "gm": "*",
     "node-images": "*",
-    "generic-pool":"*"
-
+    "generic-pool":"*",
+    "thenjs":"*"
   }
 }
