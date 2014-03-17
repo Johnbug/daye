@@ -19,8 +19,10 @@
         </div>
         <div class="user-set fl">
             <div class="fl user">
+                <% if(curUser) {%>
                 <span>用户</span>
                 <a><%= curUser.name %></a>
+                <% } %>
             </div>
         </div>
     </div>
