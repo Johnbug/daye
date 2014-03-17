@@ -18,9 +18,15 @@ var routesTable = {
 
 module.exports = function(app){
     app.get('/',function(req,res){
-        User.getQuestion(function(err, ques){
-            res.render('index-1', { title: 'daye', list: ques });
-        });
+
+        if(req.session.user != null){
+            //console.log(req.session.user);
+            User.getQuestion(function(err, ques){
+                res.render('index-1', { title: 'daye', list: ques });
+            });
+        }else{
+            res.redirect('/start');
+        }
     });
 
     //register
@@ -79,21 +85,7 @@ module.exports = function(app){
     });
 
     //ask
-    app.post('/ask', function(req,res){
-        var que = {};
-        que.title = req.body.title;
-        que.content = req.body.content;
-        que.answer = [];
-        que.time = new Date();
-        que.user = req.session.user.name;
-        User.ask(que, function(err, result){
-            if(err){
-                req.flash('error', err);
-                return res.redirect("/");
-            }
-            res.send({"status": "ok"});
-        });
-    });
+    app.post('/ask', userAction.ask);
 
     //answer page
     app.get('/question/:id', function(req, res){
@@ -178,5 +170,7 @@ module.exports = function(app){
     app.get('/start',function(req,res){
         res.render('start',{title:'start'});
     });
+
+    app.get('/logout',userAction.logout);
 
 };

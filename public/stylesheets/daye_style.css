@@ -102,20 +102,6 @@ body {
   width: 350px;
   height: 30px; }
 
-.searchBar {
-  width: 350px;
-  height: 30px;
-  padding-left: 10px;
-  border: 1px solid #16a085;
-  border-radius: 5px; }
-
-.searchBtn {
-  width: 30px;
-  vertical-align: middle;
-  position: absolute;
-  right: 0;
-  top: 0; }
-
 #askBtn {
   margin-left: 30px; }
 

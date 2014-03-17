@@ -1,12 +1,27 @@
 <header class="flat-ui-header" id = "header">
     <div class="header-container clearfix">
         <div class="header-main fl">
-           <div class="menu-set">
-
+           <div class="menu-set clearfix">
+               <div class="searchBar fl">
+                   <form>
+                       <input type="text" class=""/>
+                   </form>
+               </div>
+               <div class="fl">
+                   <a href="" class="searchBtn">
+                       <img src="images/search.png" />
+                   </a>
+               </div>
+               <div class="fl askBtn">
+                   <a href="javascript:void();">提问</a>
+               </div>
            </div>
         </div>
         <div class="user-set fl">
-
+            <div class="fl user">
+                <span>用户</span>
+                <a><%= curUser.name %></a>
+            </div>
         </div>
     </div>
 </header>

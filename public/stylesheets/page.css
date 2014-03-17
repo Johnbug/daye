@@ -4,9 +4,11 @@
     position: fixed;
     left: 0;top: 0;
     height: 50px;
-    /*border-bottom: 1px solid #aaaaaa;*/
+    border-bottom: 1px solid #aaaaaa;
     width: 100%;
-    z-index: 100;
+    z-index: 1;
+    display: none;
+    background-color: #fff;
 }
 .header-container{
     position: relative;
@@ -19,19 +21,25 @@
     height: 50px;
 }
 
+.menu-set{
+    height: 50px;
+    padding-left: 14.28%;
+    border-right: 1px solid #eeeeee;
+}
+
 .user-set{
     position: relative;
     width: 30%;
     height: 50px;
 }
-
+.user{padding: 15px 0;position: relative;}
 .brand{
     position: absolute;
     font-size: 3em;
     width: 100%;
     color: #eeeeee;
     top: 200px;
-    z-index: 1110;
+    z-index: 1;
     left: 0;
     padding: 0;
     height: 50px;
@@ -86,7 +94,6 @@
 
 .content-hot{
     width: 100%;
-
     border-radius: 6px;
     box-shadow: 0 0 6px #aaa;
 }
@@ -96,6 +103,7 @@
     margin: 0;
     padding: 10px 6px;
     border-bottom:1px solid #aaaaaa ;
+    color: #808080;
 }
 
 .hot-content ul li {
@@ -116,3 +124,39 @@
 
 .user-img{border-radius: 50px;display: inline-block;box-shadow: 0 0 6px #aaa;}
 .user-img img{width: 50px;}
+
+.searchBtn img {width: 50px;}
+.searchBar {padding: 10px 10px;}
+.searchBar input,.askBar input{height: 30px;width: 300px;border-radius: 3px;border: 1px solid #aaaaaa;}
+.askBtn{padding: 15px;}
+.askBtn a{text-decoration: none;color: #808080;}
+
+.mt10{margin-top: 10px;}
+.mt50{margin-top: 50px;}
+.mt60{margin-top: 60px;}
+.mt55{margin-top: 55px;}
+.new-content{
+
+}
+.new-content ul li{
+    list-style: none;
+    padding: 20px 5px;
+}
+.new-question-title{
+
+}
+
+.new-question-title-user{
+    width: 10%;
+}
+.new-question-title-q{
+    width: 90%;
+}
+.question-detail-input{
+    width: 300px;
+    height: 300px;
+}
+
+
+.block{display: block;}
+.none-dis{display: none;}

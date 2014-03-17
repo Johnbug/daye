@@ -44,6 +44,27 @@ var userAction = {
                 res.redirect('/user');
             });
         });
+    },
+
+    ask : function(req,res){
+        var que = {};
+        que.title = req.body.title;
+        que.content = req.body.content;
+        que.answer = [];
+        que.time = new Date();
+        que.user = req.session.user.name;
+        User.ask(que, function(err, result){
+            if(err){
+                req.flash('error', err);
+                return res.redirect("/");
+            }
+            res.send({"status": "ok"});
+        });
+    },
+
+    logout:function(req,res){
+        delete req.session.user;
+        res.redirect('/')
     }
 }
 
