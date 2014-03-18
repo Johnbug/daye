@@ -2,17 +2,40 @@
  * Created by ziyu.zzy on 14-3-14.
  */
 define(function(require, exports,module){
+    var header = require('header');
     var start = {
         init : function(){
-            $("#brand").delay(1000).animate({"fontSize":"2em",'top':0},1000,function(){
-                $(this).css({'backgroundColor':'#3498db'});
-                $("#body-main").animate({'paddingTop':'50px'},1000,function(){
-                    $($(".main-logo h2")[0]).fadeIn();
-                    $(".main-logo h3").fadeIn();
-                });
-
+            header.init();
+            $("#login-btn").click(function(){
+                //console.log("s");
+                $("#login-modal").modal();
             });
 
+            $("#login").click(function(){
+                var url = '/login';
+                $.ajax({
+                    url:url,
+                    method:'post',
+                    data : {
+                        name : $('#login-name').val(),
+                        password : $('#login-pass').val()
+                    },
+                    success : function(data){
+                        //console.log(data);
+                        if(data.type === 'suc'){
+                            window.location = '/';
+                        }else{
+                            if(data.mes === 'no-user'){
+                                $("#pass-state").removeClass('has-error');
+                                $("#name-state").addClass('has-error');
+                            }else{
+                                $("#name-state").removeClass('has-error');
+                                $("#pass-state").addClass('has-error');
+                            }
+                        }
+                    }
+                });
+            })
         },
         _render : function(data){
 
