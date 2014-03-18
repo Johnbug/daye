@@ -34,6 +34,7 @@ module.exports = function(app){
     app.post('/reg',userAction.reg);
 
 
+
     //log in
     app.get('/login',function(req,res){
         res.render('login',{title:'login'});
@@ -44,6 +45,7 @@ module.exports = function(app){
         var name = req.body.name,
             password = req.body.password;
         //对密码进行加密操作
+
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
         var newUser = new User({
@@ -55,15 +57,24 @@ module.exports = function(app){
             //如果有返回值，表示存在用户
             if(user){
                 if(user.password != password){
-                    req.flash('error','密码不正确');
-                    res.redirect('/');
+                    //req.flash('error','密码不正确');
+                    //res.redirect('/');
+                    res.send({
+                        type : 'err',
+                        mes : 'wrong-pass'
+                    });
                 }else{
                     req.session.user = user;
-                    res.redirect('/user');
+                    res.send({
+                        type : 'suc',
+                        mes  : '成功'
+                    });
                 }
             } else{
-                req.flash('error','用户不存在');
-                res.redirect('/');
+                res.send({
+                    type : 'err',
+                    mes  : 'no-user'
+                })
             }
         });
 
@@ -172,5 +183,16 @@ module.exports = function(app){
     });
 
     app.get('/logout',userAction.logout);
+
+    app.get('/angular',function(req,res){
+       res.render('angular',{layout:'none'});
+    });
+
+
+    app.get('/angular_data',function(req,res){
+       res.send({
+           user : {name:'johnbug',age:'11'}
+       })
+    });
 
 };

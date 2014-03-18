@@ -1,52 +1,62 @@
 <% include header.ejs %>
-<div class = "body-main" id="body-main">
-    <div class="main-logo">
-        <h2 class="text-center">校园在线问答</h2>
-        <h3 class="text-center">没有坏问题，只有好答案</h3>
+<div class="row main-logo">
+    <div class="col-md-12 col-sm-12">
+        <h2 class="text-center mt80">校园问答</h2>
+        <h3 class="text-center mt10">没有坏问题，只有好答案</h3>
     </div>
-    <div class="main-content block-center">
-        <div class="content-user-container clearfix">
-            <div class="content-user fl text-center">
-                <a href="/reg" class="flat-ui-btn">注册</a>
-            </div>
-            <div class="content-user fl text-center">
-                <a href="/login" class="flat-ui-btn">登录</a>
-            </div>
+</div>
+<div class="row start-log">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="col-md-6 col-sm-6 text-center ptm">
+            <button class="btn btn-hg btn-info btn-block">
+                <span>注册</span>
+            </button>
         </div>
-        <div class="content-hot">
-            <h3 class="bighead">热门问题</h3>
-            <div class="hot-content">
+        <div class="col-md-6 col-sm-6 text-center ptm">
+            <button class="btn btn-hg btn-info btn-block" id="login-btn">
+               <span> 登录</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="start-hot">
+            <div class="high-strong">热门问题</div>
+            <div>
                 <ul>
-                    <li class="clearfix">
-                        <div class="question-user fl text-center">
-                            <span class="user-img">
-                                <img src="../images/search.png" />
-                            </span>
-                        </div>
-                        <div class="question-title fl">
-                            那些年入上百万的人是如何做到的？这一人群的平均年龄是多少？
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <div class="question-user fl text-center">
-                            <span class="user-img">
-                                <img src="../images/search.png" />
-                            </span>
-                        </div>
-                        <div class="question-title fl">
-                            那些年入上百万的人是如何做到的？这一人群的平均年龄是多少？
-                        </div>
-                    </li>
+                    <li>为什么 Android 的返回键被批评为永远不知道返回到哪里？</li>
+                    <li>为什么 Android 的返回键被批评为永远不知道返回到哪里？</li>
+                    <li>为什么 Android 的返回键被批评为永远不知道返回到哪里？</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="login-modal">
+    <div class="modal-dialog modal-mid">
+        <div class="login-form">
+            <div class="form-group" id="name-state">
+                <input type="text" class="form-control login-field" value="" placeholder="输入用户名" id="login-name">
+                <label class="login-field-icon fui-user" for="login-name"></label>
+            </div>
+
+            <div class="form-group" id="pass-state">
+                <input type="password" class="form-control login-field" value="" placeholder="输入密码" id="login-pass">
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+            </div>
+
+            <a class="btn btn-primary btn-lg btn-block" id="login">登录</a>
+            <a class="login-link" href="#">忘记密码？</a>
+        </div>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <% include footer.ejs %>
 <script>
-    seajs.config({base: "/javascripts/sea_modules"})
     seajs.use('start',function(start){
         start.init();
-    });
+    })
 </script>

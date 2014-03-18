@@ -1,6 +1,34 @@
-<form id = "ask-form" class="modal">
-    <div class="askBar"><input type="text" name="title" /></div>
-    <div><textarea  name="detail" class="question-detail-input mt10"></textarea></div>
-</form>
-<ul id="fire-list"></ul>
+<div class="modal fade" id="ask-modal">
+    <div class="modal-dialog modal-mid">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">提问</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control"  placeholder="问题标题">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <textarea class="form-control" rows="3" placeholder="问题描述"></textarea>
+                         </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">提交问题</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script src = "/javascripts/lib/sea.js"></script>
+<script>
+    seajs.config({base: "/javascripts/sea_modules"})
+</script>

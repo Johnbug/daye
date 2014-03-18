@@ -11,7 +11,7 @@ define(function(require, exports,module){
                 $('#brand').css({'position':'fixed','top':'0','left':0});
             });
             header.init();
-            header.ask($(".askBtn a"));
+
 
 
             //m2.fire();
