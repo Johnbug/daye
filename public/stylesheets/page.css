@@ -3,6 +3,7 @@
 .mt50{margin-top: 50px;}
 .mt80{margin-top: 80px;}
 .mt60{margin-top: 60px;}
+.rml15{ margin-left: -15px; }
 
 
 .main-logo{
@@ -43,6 +44,17 @@
     border-top: 1px solid #e0e0e0;
 }
 
+.q-content-lists{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.q-content-list{
+    border-bottom: 1px dotted #e0e0e0;
+    list-style: none;
+}
+
 .img-user{
     width: 48px;
 }
@@ -50,7 +62,8 @@
     border-bottom: 1px solid #f0f0f0;
 }
 
-
 .modal-content{
     background-color: #edeff1;
 }
+
+.pointer{ cursor: pointer; }

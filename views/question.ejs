@@ -1,19 +1,59 @@
-<h1><%= question.title %></h1>
-<p><%= question.content %></p>
-<ul>
-	<% for(var i=0; i<question.answer.length; i++) {%>
-        <li style="background-color: pink;">
-             <%= question.answer[i].content %>
-             <input type="button" class="upBtn" myId="<%= question._id %>" num="<%= question.answer[i].num %>" value="up(<%= question.answer[i].up %>)" />
-             <input type="button" class="downBtn" myId="<%= question._id %>" num="<%= question.answer[i].num %>" value="down(<%= question.answer[i].down %>)" />
-        </li>
-    <% } %> 
-</ul>
-<form method="post" action="/answer">
-	<input type="hidden" name="id" value="<%= question._id %>" />
-	<textarea name="content" placeholder="comment.."></textarea>
-	<input type="submit" value="submit" />
-</form>
+<% include header.ejs %>
+
+<div class="container row mt60">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn btn-info active" href="#fakelink"><span class="fui-user"></span><span>我关注的人的动态</span></a>
+                <a class="btn btn-inverse" href="#fakelink"><span class="fui-chat"></span><span>我关注的话题</span></a>
+                <a class="btn btn-primary" href="#fakelink"><span class="fui-heart"></span><span>我的收藏夹</span></a>
+                <a class="btn btn-warning" href="#fakelink"><span class="fui-eye"></span><span>探索和发现</span></a>
+            </div>
+        </div> <!-- /toolbar -->
+
+        <div class="col-md-12 mtm q-content">
+            <h4><%= question.title %></h4>
+		    <p><%= question.content %></p>
+		    <hr />
+		    <p>共<%= question.answer.length %>个回答</p>
+		    <hr />
+			<ul class="q-content-lists">
+				<% for(var i=0; i<question.answer.length; i++) {%>
+				    <li class="q-content-list">
+				    	<h6><%= question.answer[i].user %></h6>
+				        <p><small><%= question.answer[i].content %></small></p>
+						<a class="upBtn pointer" myId="<%= question._id %>" num="<%= question.answer[i].num %>" >
+					        <small><span class="fui-heart"></span><%= question.answer[i].up %></small>
+					    </a>
+					    <a class="downBtn mll pointer" myId="<%= question._id %>" num="<%= question.answer[i].num %>" >
+					        <small><span class="fui-cross"></span><%= question.answer[i].down %></small>
+					    </a>
+				    </li>
+				<% } %> 
+			</ul>
+			<form class="mtl" role="form" method="post" action="/answer">
+			    <div class="form-group">
+			    	<textarea class="form-control" rows="3" placeholder="在这里回答" name="content"></textarea>
+			    </div>
+			    <div class="form-group">
+			    	<input type="hidden" name="id" value="<%= question._id %>" />
+			    </div>
+			    <div class="form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-14">
+        <div class="col-sm-12 mt50">
+            <img src="/images/x04.jpg" class="img-rounded img-responsive"/>
+        </div>
+    </div>
+</div>
+
+<% include footer.ejs %>
+
 <script>
 	$(function(){
 		$(".upBtn").on("click", function(){
@@ -24,7 +64,9 @@
 				id: $(this).attr("myId"),
 				num: $(this).attr("num")
 			}, function(data){
-				that.attr("value", "up(" + data.question.answer[num].up + ")");
+				that[0].innerHTML = '<small><span class="fui-heart"></span>'
+							   	  + data.question.answer[num].up;
+							      + '</small>';
 			});
 		});
 		$(".downBtn").on("click", function(){
@@ -35,7 +77,10 @@
 				id: $(this).attr("myId"),
 				num: $(this).attr("num")
 			}, function(data){
-				that.attr("value", "down(" + data.question.answer[num].down + ")");
+				//that.attr("value", "down(" + data.question.answer[num].down + ")");
+				that[0].innerHTML = '<small><span class="fui-cross"></span>'
+							      + data.question.answer[num].down
+							      + '</small>';
 			});
 		});
 	});

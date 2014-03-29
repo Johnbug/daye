@@ -21,7 +21,7 @@ define(function(require, exports,module){
                         password : $('#login-pass').val()
                     },
                     success : function(data){
-                        //console.log(data);
+                        console.log(data);
                         if(data.type === 'suc'){
                             window.location = '/';
                         }else{

@@ -1,55 +1,122 @@
-<% if(user){ %>
-	<h1><%= user.name %></h1>
-	<div id="showBox">
-		<ul>
-			<li>性别：<%= user.sex %></li>
-			<li>个性签名：<%= user.signature %></li>
-			<li>专业：<%= user.major %></li>
-			<li>等级：<%= user.level %></li>
-		</ul>
-		<% if(curUser.name === user.name){ %>
-			<input type="button" value="编辑" id="editBtn" />
-		<% } %>
-	</div>
-	<div id="editBox" style="display: none;">
-		<form method="post" action="/user/edit">
-			<p>性别：
-				<input type="radio" name="sex" value="男" checked="checked" />男
-				<input type="radio" name="sex" value="女" />女
-			</p>
-			<p>
-			个性签名：<input type="text" name="signature" value="<%= user.signature %>" />
-			</p>
-			<p>
-			专业：<input type="text" name="major" value="<%= user.major %>" />
-			</p>
-			<input type="submit" value="保存" id="saveBtn" />
-		</form>
-	</div>
-	<h3>提过的问题</h3>
-	<ul>
-		<% for(var i=0; i<questions.length; i++){ %>
-			<li>
-				<h4>标题：<%= questions[i].title %></h4>
-				<p>内容：<%= questions[i].content %></p>
-			</li>
-		<% } %>
-	</ul>
-	<h3>回答过的问题</h3>
-	<ul>
-		<% for(var i=0; i<answers.length; i++){ %>
-			<li>
-				<h4>标题：<%= answers[i].title %></h4>
-				<p>内容：<%= answers[i].content %></p>
-			</li>
-		<% } %>
-	</ul>
-<% }else{ %>
-	<h1>该用户还不存在！</h1>
-<% } %>
+<% include header.ejs %>
+
+<div class="container row mt60">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn btn-info active" href="#fakelink"><span class="fui-user"></span><span>我关注的人的动态</span></a>
+                <a class="btn btn-inverse" href="#fakelink"><span class="fui-chat"></span><span>我关注的话题</span></a>
+                <a class="btn btn-primary" href="#fakelink"><span class="fui-heart"></span><span>我的收藏夹</span></a>
+                <a class="btn btn-warning" href="#fakelink"><span class="fui-eye"></span><span>探索和发现</span></a>
+            </div>
+        </div> <!-- /toolbar -->
+
+        <div class="col-md-12 mtm q-content">
+        	<% if(user){ %>
+			<div class="panel panel-primary mtl" id="showBox">
+			    <div class="panel-heading">
+			        <h3 class="panel-title"><%= user.name %></h3>
+			    </div>
+			    <div class="panel-body">
+			        <ul>
+						<li>性别：<%= user.sex %></li>
+						<li>个性签名：<%= user.signature %></li>
+						<li>专业：<%= user.major %></li>
+						<li>等级：<%= user.level %></li>
+					</ul>
+					<% if(curUser.name === user.name){ %>
+						<button type="button" class="btn btn-info" id="editBtn">编辑</button> 
+					<% } %>
+			    </div>
+			</div>
+			
+			<div class="panel panel-primary mtl" id="editBox" style="display: none;">
+			    <div class="panel-heading">
+			        <h3 class="panel-title"><%= user.name %></h3>
+			    </div>
+			    <div class="panel-body">
+			        <form role="form" method="post" action="/user/edit">
+			        	<div class="form-group">
+					        <label for="sex">性别</label><br/>
+							<input type="radio" name="sex" value="男" checked="checked" />男
+							<input type="radio" name="sex" value="女" />女
+					  	</div>
+					    <div class="form-group">
+					        <label for="signature">个性签名</label>
+					        <input type="text" class="form-control" name="signature" value="<%= user.signature %>"  placeholder="个性签名" />
+					    </div>
+					    <div class="form-group">
+					        <label for="major">专业</label>
+					        <input type="text" class="form-control" name="major" placeholder="专业"  value="<%= user.major %>">
+					  	</div>
+					 	<button type="submit" class="btn btn-info" id="saveBtn">保存</button>
+					</form>
+			    </div>
+			</div>
+
+			<!--div id="editBox" style="display: none;">
+			
+				<form method="post" action="/user/edit">
+					<p>性别：
+						<input type="radio" name="sex" value="男" checked="checked" />男
+						<input type="radio" name="sex" value="女" />女
+					</p>
+					<p>
+					个性签名：<input type="text" name="signature" value="<%= user.signature %>" />
+					</p>
+					<p>
+					专业：<input type="text" name="major" value="<%= user.major %>" />
+					</p>
+					<input type="submit" value="保存" id="saveBtn" />
+				</form>
+			</div-->
+			<ul class="nav nav-tabs mtm">
+			    <li class="active"><a href="#ask" class="person-tab">提过的问题</a></li>
+			    <li><a href="#answer" class="person-tab">回答过的问题</a></li>
+			</ul>
+			<div class="col-md-12">
+				<ul id="person-ask" class="q-content-lists">
+					<% for(var i=0; i<questions.length; i++){ %>
+						<li class="rml15">
+							<blockquote>
+								<a href="/question/<%= questions[i]._id %>">
+									<h6><%= questions[i].title %></h6>
+								</a>
+								<p><%= questions[i].content %></p>
+							</blockquote>
+						</li>
+					<% } %>
+				</ul>
+				<ul id="person-answer" class="q-content-lists" style="display: none;">
+					<% for(var i=0; i<answers.length; i++){ %>
+						<li class="rml15">
+							<blockquote>
+								<a href="/question/<%= questions[i]._id %>">
+									<h6><%= answers[i].title %></h6>
+								</a>
+								<p><%= answers[i].content %></p>
+							</blockquote>
+						</li>
+					<% } %>
+				</ul>
+			</div>
+			<% }else{ %>
+			<h1>该用户还不存在！</h1>
+			<% } %>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-14">
+        <div class="col-sm-12 mt50">
+            <img src="/images/x04.jpg" class="img-rounded img-responsive"/>
+        </div>
+    </div>
+</div>
+
+<% include footer.ejs %>
+
 <script>
-	$("#editBtn").on("click", function(){
-		$("#showBox").hide();
-		$("#editBox").show();
-	});
+	seajs.use('person',function(person){
+        person.init();
+    });
 </script>

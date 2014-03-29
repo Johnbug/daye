@@ -3,6 +3,7 @@
  */
 define(function(require, exports,module){
     var header = require('header.js');
+    var footer = require('footer.js');
 
     var index = {
         init : function(){
@@ -11,7 +12,7 @@ define(function(require, exports,module){
                 $('#brand').css({'position':'fixed','top':'0','left':0});
             });
             header.init();
-
+            footer.init();
 
 
             //m2.fire();

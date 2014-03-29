@@ -1,5 +1,3 @@
-
-
 <div class = "leftbar fx">
     <div class = "left-logo text-center">答也</div>
     <ul class = "left-content text-center">
@@ -17,7 +15,9 @@
                 <img src="/images/search.png" class = "searchBtn" />
             </form>
             <button class = "btn btn-primary" id = "askBtn">提问</button>
-            <span>当前用户：<%= curUser.name %></span>
+            <% if(curUser){ %>
+                <span>当前用户：<%= curUser.name %></span>
+            <% } %>
         </div>
         <div>
             <h1><a href="/reg">register</a></h1>

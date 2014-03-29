@@ -336,7 +336,7 @@ User.editUser =function(user, callback){
                 return callback(err);
             }
             console.log(user);
-            collection.findOne({name: "a"}, function(err, result){ 
+            collection.findOne({name: user.name}, function(err, result){ 
                 if(err){
                     return callback(err);
                 } 
