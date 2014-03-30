@@ -35,6 +35,11 @@ define(function(require, exports,module) {
                     }
                 }
             );
+            $(':radio').radio();
+            $('#cancel').click(function(){
+                $("#showBox").show();
+                $("#editBox").hide();
+            })
         },
         _render : function(data) {
 

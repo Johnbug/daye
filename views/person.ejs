@@ -36,11 +36,18 @@
 			        <h3 class="panel-title"><%= user.name %></h3>
 			    </div>
 			    <div class="panel-body">
-			        <form role="form" method="post" action="/user/edit">
 			        	<div class="form-group">
-					        <label for="sex">性别</label><br/>
-							<input type="radio" name="sex" value="男" checked="checked" />男
-							<input type="radio" name="sex" value="女" />女
+
+                            <label class="radio">
+                                <input type="radio" name="sex" value="1" data-toggle="radio" checked>
+                                我是男生啦
+                            </label>
+
+                            <label class="radio">
+                                <input type="radio" name="sex" value="2" data-toggle="radio" >
+                                我是女生啊
+                            </label>
+
 					  	</div>
 					    <div class="form-group">
 					        <label for="signature">个性签名</label>
@@ -50,27 +57,13 @@
 					        <label for="major">专业</label>
 					        <input type="text" class="form-control" name="major" placeholder="专业"  value="<%= user.major %>">
 					  	</div>
-					 	<button type="submit" class="btn btn-info" id="saveBtn">保存</button>
-					</form>
+                        <div class="form-group">
+                        <button class="btn btn-info" id="cancelBtn">取消</button>
+					 	<button  class="btn btn-info" id="saveBtn">保存</button>
+                        </div>
+
 			    </div>
 			</div>
-
-			<!--div id="editBox" style="display: none;">
-			
-				<form method="post" action="/user/edit">
-					<p>性别：
-						<input type="radio" name="sex" value="男" checked="checked" />男
-						<input type="radio" name="sex" value="女" />女
-					</p>
-					<p>
-					个性签名：<input type="text" name="signature" value="<%= user.signature %>" />
-					</p>
-					<p>
-					专业：<input type="text" name="major" value="<%= user.major %>" />
-					</p>
-					<input type="submit" value="保存" id="saveBtn" />
-				</form>
-			</div-->
 			<ul class="nav nav-tabs mtm">
 			    <li class="active"><a href="#ask" class="person-tab">提过的问题</a></li>
 			    <li><a href="#answer" class="person-tab">回答过的问题</a></li>
