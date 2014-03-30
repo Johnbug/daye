@@ -19,8 +19,8 @@
 			        <h3 class="panel-title"><%= user.name %></h3>
 			    </div>
 			    <div class="panel-body">
-			        <ul>
-						<li>性别：<%= user.sex %></li>
+			        <ul class="person-info">
+						<li><span>性别：<%= user.sex %></span></li>
 						<li>个性签名：<%= user.signature %></li>
 						<li>专业：<%= user.major %></li>
 						<li>等级：<%= user.level %></li>
@@ -35,28 +35,31 @@
 			    <div class="panel-heading">
 			        <h3 class="panel-title"><%= user.name %></h3>
 			    </div>
-			    <div class="panel-body">
+			    <div class="panel-body" id="user-edit-body">
 			        	<div class="form-group">
-
                             <label class="radio">
-                                <input type="radio" name="sex" value="1" data-toggle="radio" checked>
+                                <input type="radio" name="sex" value="男" data-toggle="radio" <%if(user.sex == null || user.sex == '男'){%>checked<% }%> />
                                 我是男生啦
                             </label>
 
                             <label class="radio">
-                                <input type="radio" name="sex" value="2" data-toggle="radio" >
+                                <input type="radio" name="sex" value="女" data-toggle="radio" <%if(user.sex == null || user.sex == '女'){%>checked<%}%>/>
                                 我是女生啊
                             </label>
 
 					  	</div>
 					    <div class="form-group">
-					        <label for="signature">个性签名</label>
+                            <div class="input-group">
+                            <span class="input-group-addon">个性签名</span>
 					        <input type="text" class="form-control" name="signature" value="<%= user.signature %>"  placeholder="个性签名" />
-					    </div>
+                            </div>
+					     </div>
 					    <div class="form-group">
-					        <label for="major">专业</label>
+                            <div class="input-group">
+					        <span class="input-group-addon">来自专业</span>
 					        <input type="text" class="form-control" name="major" placeholder="专业"  value="<%= user.major %>">
-					  	</div>
+                            </div>
+                        </div>
                         <div class="form-group">
                         <button class="btn btn-info" id="cancelBtn">取消</button>
 					 	<button  class="btn btn-info" id="saveBtn">保存</button>
@@ -68,32 +71,6 @@
 			    <li class="active"><a href="#ask" class="person-tab">提过的问题</a></li>
 			    <li><a href="#answer" class="person-tab">回答过的问题</a></li>
 			</ul>
-			<div class="col-md-12">
-				<ul id="person-ask" class="q-content-lists">
-					<% for(var i=0; i<questions.length; i++){ %>
-						<li class="rml15">
-							<blockquote>
-								<a href="/question/<%= questions[i]._id %>">
-									<h6><%= questions[i].title %></h6>
-								</a>
-								<p><%= questions[i].content %></p>
-							</blockquote>
-						</li>
-					<% } %>
-				</ul>
-				<ul id="person-answer" class="q-content-lists" style="display: none;">
-					<% for(var i=0; i<answers.length; i++){ %>
-						<li class="rml15">
-							<blockquote>
-								<a href="/question/<%= questions[i]._id %>">
-									<h6><%= answers[i].title %></h6>
-								</a>
-								<p><%= answers[i].content %></p>
-							</blockquote>
-						</li>
-					<% } %>
-				</ul>
-			</div>
 			<% }else{ %>
 			<h1>该用户还不存在！</h1>
 			<% } %>

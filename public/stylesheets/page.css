@@ -87,3 +87,8 @@
 }
 
 .pointer{ cursor: pointer; }
+
+/*person info*/
+.person-info{
+    list-style: none;
+}

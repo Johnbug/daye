@@ -9,6 +9,7 @@ define(function(require, exports,module) {
     var header = require('header');
     var person = {
         init : function () {
+            var el_user_input = $("#user-edit-body");
             header.init();
             $("#editBtn").on(
                 "click", 
@@ -17,6 +18,7 @@ define(function(require, exports,module) {
                     $("#editBox").show();
                 }
             );
+
             $(".person-tab").on(
                 "click",
                 function () {
@@ -36,10 +38,24 @@ define(function(require, exports,module) {
                 }
             );
             $(':radio').radio();
-            $('#cancel').click(function(){
+
+            $('#cancelBtn').click(function(){
                 $("#showBox").show();
                 $("#editBox").hide();
-            })
+            });
+
+            $('#saveBtn').click(function(){
+                $.ajax({
+                    url : '/user/edit',
+                    method : 'post',
+                    data : {
+                        'sex' : el_user_input.find('input[name="sex"]').val(),
+                        'signature' : el_user_input.find('input[name="signature"]').val(),
+                        'major' : el_user_input.find('input[name="major"]').val()
+                    }
+                })
+            });
+
         },
         _render : function(data) {
 
