@@ -13,11 +13,7 @@ define(function(require, exports,module){
             });
             header.init();
             footer.init();
-
-
             //m2.fire();
-
-
         },
         _render : function(data){
 
