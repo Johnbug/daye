@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -10,7 +9,7 @@ var path = require('path');
 var MongoStore = require('connect-mongo')(express);
 var settings = require('./settings');
 var flash = require('connect-flash');
-var partials=require('express-partials');
+var partials = require('express-partials');
 
 var app = express();
 
@@ -28,21 +27,23 @@ app.use(partials());
 
 app.use(express.cookieParser());
 app.use(express.session({
-    secret: settings.cookieSecret,
-    key: settings.db,
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-    store: new MongoStore({
-        db: settings.db
-    })
+  secret: settings.cookieSecret,
+  key: settings.db,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30
+  }, //30 days
+  store: new MongoStore({
+    db: settings.db
+  })
 }));
 
-app.use(function(req, res, next){
-	var err = req.flash('error'),
+app.use(function(req, res, next) {
+  var err = req.flash('error'),
     success = req.flash('success');
-	res.locals.curUser = req.session.user;
-	res.locals.error = err.length ? err : null;
-	res.locals.success = success.length ? success : null;
-	next();
+  res.locals.curUser = req.session.user;
+  res.locals.error = err.length ? err : null;
+  res.locals.success = success.length ? success : null;
+  next();
 });
 
 app.use(app.router);
@@ -57,9 +58,6 @@ if ('development' == app.get('env')) {
 routes(app);
 
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-
-

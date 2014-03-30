@@ -3,7 +3,7 @@
 <div class="container row mt60">
     <div class="col-lg-8 col-md-8 col-sm-12">
 
-         <div class="btn-toolbar">
+        <div class="btn-toolbar">
             <div class="btn-group">
                 <a class="btn btn-info active" href="#fakelink"><span class="fui-user"></span><span>我关注的人的动态</span></a>
                 <a class="btn btn-inverse" href="#fakelink"><span class="fui-chat"></span><span>我关注的话题</span></a>
@@ -13,7 +13,16 @@
         </div> <!-- /toolbar -->
 
         <div class="col-md-12 mtm q-content">
-
+            <ul class="q-content-lists">
+                <% for(var i=0; i<list.length; i++) {%>
+                    <li class="pbm q-content-list">
+                        <a href="/question/<%= list[i]._id %>">
+                            <h5><%= list[i].title %><small class="mlm"><%= list[i].user %></small></h5>
+                        </a>
+                        <%= list[i].content %>
+                    </li>
+                <% } %> 
+            </ul>  
         </div>
     </div>
     <div class="col-lg-4 col-md-14">
