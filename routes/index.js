@@ -20,9 +20,9 @@ module.exports = function(app){
     app.get('/',function(req,res){
 
         if(req.session.user != null){
-            //console.log(req.session.user);
+            console.log(req.session.user);
             User.getQuestion(function(err, ques){
-                res.render('index-1', { title: 'daye', list: ques });
+                res.render('index-1', { title: 'daye', list: ques ,usr : req.session.user});
             });
         }else{
             res.redirect('/start');

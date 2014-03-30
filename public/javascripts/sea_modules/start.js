@@ -11,6 +11,9 @@ define(function(require, exports,module){
                 $("#login-modal").modal();
             });
 
+            $("#reg-btn").click(function(){
+               window.location = '/reg';
+            });
             $("#login").click(function(){
                 var url = '/login';
                 $.ajax({

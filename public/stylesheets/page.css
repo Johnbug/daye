@@ -6,11 +6,29 @@
 
 
 .main-logo{
-    background-image: url('../images/sunset.jpg');
     margin-top: 53px;
     min-height: 400px;
     color: #ffffff;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url('../images/sunset.jpg');
 }
+
+.reg{
+    margin-top: 53px;
+}
+
+.reg-form{
+    background-color: #edeff1;
+    border-radius: 6px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 0 6px #aaa;
+}
+.reg-header{
+    border-bottom: 1px solid #aaa;
+    padding: 2px 15px;
+}
+.reg-body{padding: 20px 30px 10px;}
 .start-log{
     padding-top: 50px;
 }

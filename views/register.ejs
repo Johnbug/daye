@@ -1,7 +1,34 @@
-<h1>To join us</h1>
-<form method='post'>
-    <input type='text' name='name' />
-    <input type='password' name='password' />
-    <input type='submit' value='ok' />
-</form>
+<% include header.ejs %>
 
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6 reg">
+        <h3 class="text-center">欢迎加入我们的知识世界</h3>
+        <div>
+            <img src="/images/x04.jpg" class="img-rounded img-responsive" />
+        </div>
+        <div class="reg-form mt5">
+            <div class="reg-header">
+                <h6>快捷注册</h6>
+            </div>
+            <div class="reg-body">
+                <div class="form-group">
+                <input class="form-control" type="text" placeholder="输入用户名" id = "input-name"/>
+                    </div><div class="form-group">
+                <input class="form-control" type="password" placeholder="输入密码" id="input-pass"/>
+                   </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" placeholder="确认密码" id="input-pass-com"/>
+                </div>
+                <button class="btn btn-block btn-primary" id ="reg">注册</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<% include footer.ejs %>
+<script>
+    seajs.use('reg',function(start){
+        //start.init();
+    })
+</script>
