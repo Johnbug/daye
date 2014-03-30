@@ -19,7 +19,9 @@
                         <a href="/question/<%= list[i]._id %>">
                             <h5><%= list[i].title %><small class="mlm"><%= list[i].user %></small></h5>
                         </a>
-                        <%= list[i].content %>
+                        <p><%= list[i].content %></p>
+                        <small class="subtitle"><%= list[i].answer.length %>条评论</small>
+                        <a href="#collect" qid="<%= list[i]._id %>" class="collect"><small class="pll subtitle">收藏</small></a>
                     </li>
                 <% } %> 
             </ul>  

@@ -5,6 +5,8 @@
 .mt60{margin-top: 60px;}
 .rml15{ margin-left: -15px; }
 
+.subtitle{color: #ddd;}
+.subtitle:hover{color: #1abc9c;}
 
 .main-logo{
     margin-top: 53px;

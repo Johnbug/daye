@@ -125,6 +125,66 @@ module.exports = function(app){
         });
     });
 
+     //收藏问题
+    app.post(
+        '/collect', 
+        function (req, res) {
+            var id = req.body.qid;
+            var user = req.session.user.name;
+            User.collect(
+                id,
+                user,
+                function (err, result) {
+                    if (err) {
+                        req.flash('error', err);
+                    }
+                    res.send({"status": "ok"});
+                }
+            );
+        }
+    );
+
+    //取消收藏
+    app.post(
+        '/uncollect', 
+        function (req, res) {
+            var id = req.body.qid;
+            var user = req.session.user.name;
+            User.uncollect(
+                id,
+                user,
+                function (err, result) {
+                    if (err) {
+                        req.flash('error', err);
+                    }
+                    res.send({"status": "ok"});
+                }
+            );
+        }
+    );
+
+    /*
+    *@ 我的收藏夹接口，返回值中list是收藏的问题组成的数组。
+    */
+    app.get(
+        '/collection',
+        function (req, res) {
+            var user = req.session.user.name;
+            if (!user) {
+                res.send({title: 'collection', list: []});
+            }
+            User.collection(
+                user,
+                function (err, result) {
+                    if (err) {
+                        req.flash('error', err);
+                    }
+                    res.send({title: 'collection', list: result});
+                }
+            );   
+        }
+    );
+
     //vote answer
     app.post('/vote', function(req, res){
         var vote = req.body.value;  //顶或者踩

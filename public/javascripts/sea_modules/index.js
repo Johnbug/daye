@@ -13,7 +13,7 @@ define(function(require, exports,module){
             });
             header.init();
             footer.init();
-
+            this.bindEvent();
 
             //m2.fire();
 
@@ -21,6 +21,27 @@ define(function(require, exports,module){
         },
         _render : function(data){
 
+        },
+        bindEvent: function () {
+            $(".collect").on(
+                'click',
+                function () {
+                    var qid = $(this).attr("qid");
+                    var that = $(this);
+                    $.ajax({
+                        url: '/collect',
+                        method: 'post',
+                        data: {
+                            qid: qid
+                        },
+                        success: function (data) {
+                            if (data.status === "ok") {
+                                that[0].innerHTML = '<small class="pll subtitle">收藏成功</small>';
+                            }
+                        }
+                    });
+                }
+            )
         }
     }
 
