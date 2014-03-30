@@ -355,3 +355,118 @@ User.editUser =function(user, callback){
         });
     })
 }
+
+//收藏问题
+User.collect = function (id, user, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            "question",
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.findOne(
+                    {_id: Number(id)},
+                    function (err, result) {
+                        if (err) {
+                            return callback(err);
+                        }
+                        if (!result.collector) {
+                            result.collector = [];
+                        }
+                        for (var i = 0; i < result.collector.length; i++) {
+                            if (result.collector[i] === user) {
+                                break;
+                            }
+                        }
+                        if (i === result.collector.length) {
+                            result.collector.push(user);
+                        }
+                        collection.update(
+                            {_id: Number(id)},
+                            result,
+                            function (err, item) {
+                                if (err) {
+                                    return callback(err);
+                                }
+                                pool.release(db);
+                                return callback(err, item);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+}
+
+//取消收藏
+User.uncollect = function (id, user, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            "question",
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.findOne(
+                    {_id: Number(id)},
+                    function (err, result) {
+                        if (err) {
+                            return callback(err);
+                        }
+                        if (!result.collector) {
+                            result.collector = [];
+                        }
+                        for (var i = 0; i < result.collector.length; i++) {
+                            if (result.collector[i] === user) {
+                                result.collector.splice(i, 1);
+                            }
+                        }
+                        collection.update(
+                            {_id: Number(id)},
+                            result,
+                            function (err, item) {
+                                if (err) {
+                                    return callback(err);
+                                }
+                                pool.release(db);
+                                return callback(err, item);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+}
+
+//收藏夹展示
+User.collection = function (user, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'question',
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.find({collector: user}).toArray(function (err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    pool.release(db);
+                    return callback(err, result);
+                });
+            }
+        );
+    });
+}
