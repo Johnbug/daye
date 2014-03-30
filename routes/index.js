@@ -4,7 +4,9 @@
  */
 var crypto = require('crypto'),
     User = require('../models/user.js'),
-    userAction = require('./user.js');
+    userAction = require('./user.js'),
+    xs_route =require('./xs_index');
+
 /*
 var user = require('./user.js');
 
@@ -17,6 +19,8 @@ var routesTable = {
 
 
 module.exports = function(app){
+    xs_route(app);
+
     app.get('/',function(req,res){
 
         if(req.session.user != null){
