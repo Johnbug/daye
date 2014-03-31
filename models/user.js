@@ -335,7 +335,7 @@ User.editUser =function(user, callback){
             if(err){
                 return callback(err);
             }
-            console.log(user);
+            //console.log(user);
             collection.findOne({name: user.name}, function(err, result){ 
                 if(err){
                     return callback(err);
@@ -343,7 +343,7 @@ User.editUser =function(user, callback){
                 result.sex = user.sex;
                 result.major = user.major;
                 result.signature = user.signature;
-                console.log(result);
+                //console.log(result);
                 collection.save(result, function(err, items){
                     if(err){
                         return callback(err);

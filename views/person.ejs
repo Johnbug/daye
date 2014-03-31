@@ -19,11 +19,11 @@
 			        <h3 class="panel-title"><%= user.name %></h3>
 			    </div>
 			    <div class="panel-body">
-			        <ul class="person-info">
-						<li><span>性别：<%= user.sex %></span></li>
-						<li>个性签名：<%= user.signature %></li>
-						<li>专业：<%= user.major %></li>
-						<li>等级：<%= user.level %></li>
+			        <ul class="person-info" id="person-info">
+						<li>性别：<span><%= user.sex %></span></li>
+						<li>个性签名：<span><%= user.signature %></span></li>
+						<li>专业：<span><%= user.major %></span></li>
+						<li>等级：<span><%= user.level %></span></li>
 					</ul>
 					<% if(curUser.name === user.name){ %>
 						<button type="button" class="btn btn-info" id="editBtn">编辑</button> 
@@ -37,13 +37,14 @@
 			    </div>
 			    <div class="panel-body" id="user-edit-body">
 			        	<div class="form-group">
+                            <input type="hidden" value="<%=user.sex%>" name="sex-val"/>
                             <label class="radio">
                                 <input type="radio" name="sex" value="男" data-toggle="radio" <%if(user.sex == null || user.sex == '男'){%>checked<% }%> />
                                 我是男生啦
                             </label>
 
                             <label class="radio">
-                                <input type="radio" name="sex" value="女" data-toggle="radio" <%if(user.sex == null || user.sex == '女'){%>checked<%}%>/>
+                                <input type="radio" name="sex" value="女" data-toggle="radio" <%if(user.sex == '女'){%>checked<%}%>/>
                                 我是女生啊
                             </label>
 
@@ -82,9 +83,8 @@
         </div>
     </div>
 </div>
-
+<% include widget/messagebox.ejs %>
 <% include footer.ejs %>
-
 <script>
 	seajs.use('person',function(person){
         person.init();

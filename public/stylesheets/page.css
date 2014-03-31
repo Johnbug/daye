@@ -91,4 +91,5 @@
 /*person info*/
 .person-info{
     list-style: none;
+    padding-left: 0;
 }

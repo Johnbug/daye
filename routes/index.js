@@ -238,7 +238,11 @@ module.exports = function(app){
             if(err){
                 req.flash('error', err);
             }
-            res.redirect("/user/" + user.name);
+            //res.redirect("/user/" + user.name);
+            res.send({
+                'type' : 'sec',
+                'result' : result
+            })
         });
     });
 
