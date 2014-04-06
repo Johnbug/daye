@@ -145,4 +145,25 @@ Topic.getQuestionForTopic = function(topicName, callback) {
     });
 }
 
-
+Topic.getHot = function(callback){
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'question', 
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.find().sort({answers: -1}).toArray(function (err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    pool.release(db);
+                    return callback(err, result);
+                });
+            }
+        );
+    });
+}

@@ -212,7 +212,7 @@ User.answer = function(id, answer, callback){
             }
             collection.findOne({_id: Number(id)}, function(err, result){
                 answer.num = result.answer.length;
-                collection.update({_id: Number(id)}, {$push: {answer: answer}}, function(err, result){
+                collection.update({_id: Number(id)}, {$push: {answer: answer}, $inc: {answers: 1}}, function(err, result){
                     if(err){
                         return callback(err);
                     }
@@ -521,7 +521,6 @@ User.getFollowers = function(user,cb){
     });
 }
 
-}
 
 //关注或者取消话题
 User.addTopic = function (user, callback) {
@@ -567,6 +566,31 @@ User.addTopic = function (user, callback) {
                         );
                     }
                 );
+            }
+        );
+    });
+}
+
+//搜索
+User.search = function (keyword, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'question', 
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                console.log(keyword);
+                collection.find({$or: [{title: keyword}, {content: keyword}]}).toArray(function (err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    pool.release(db);
+                    return callback(err, result);
+                });
             }
         );
     });

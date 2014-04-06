@@ -134,4 +134,43 @@ module.exports = function(app){
             );
         }
     );
+
+    /**
+     * 探索和发现接口，按照评论多少排序
+     * 
+     * @return {Array} questions 问题组成的数组
+     */
+    app.post(
+        '/getHot',
+        function (req, res) {
+            Topic.getHot(function (err, result) {
+                if (err) {
+                    req.flash('error', err);
+                }
+                res.send({questions: result});
+            });
+        } 
+    );
+
+    app.post(
+        '/search',
+        function (req, res) {
+            var keyword = new RegExp(req.body.keyword);
+            User.search(
+                keyword,
+                function (err, result) {
+                    if (err) {
+                        req.flash('error', err);
+                    }
+                    res.render(
+                        'search',
+                        {
+                            list: result,
+                            title: "search"
+                        }
+                    );
+                }
+            );
+        }
+    );
 }
