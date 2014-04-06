@@ -45,44 +45,7 @@ module.exports = function(app){
 
     });
 
-    app.post('/login',function(req,res){
-        var name = req.body.name,
-            password = req.body.password;
-        //对密码进行加密操作
-
-        var md5 = crypto.createHash('md5'),
-            password = md5.update(req.body.password).digest('hex');
-        var newUser = new User({
-            name: req.body.name,
-            password: password
-        });
-
-        User.get(newUser.name, function(err, user){
-            //如果有返回值，表示存在用户
-            if(user){
-                if(user.password != password){
-                    //req.flash('error','密码不正确');
-                    //res.redirect('/');
-                    res.send({
-                        type : 'err',
-                        mes : 'wrong-pass'
-                    });
-                }else{
-                    req.session.user = user;
-                    res.send({
-                        type : 'suc',
-                        mes  : '成功'
-                    });
-                }
-            } else{
-                res.send({
-                    type : 'err',
-                    mes  : 'no-user'
-                })
-            }
-        });
-
-    });
+    app.post('/login',userAction.login);
 
     //user page
     app.get('/user',function(req,res){
@@ -204,7 +167,7 @@ module.exports = function(app){
 
     //user page
     app.get('/user/:id', function(req, res){
-        User.info(req.params.id, function(err, result){
+        User.get(req.params.id, function(err, result){
             if(err){
                 req.flash('error', err);
             }
@@ -216,11 +179,13 @@ module.exports = function(app){
                     if(err){
                         req.flash('error', err);
                     }
+
                     res.render('person', {
                         "title": req.params.id, 
                         "user": result, 
                         "questions": questions,
                         "answers": answers
+
                     });
                 })
             });
@@ -263,4 +228,8 @@ module.exports = function(app){
        })
     });
 
+    app.get('/follow',userAction.follow);
+
+    app.get('/followees/:name',userAction.followees);
+    app.get('/followers/:name',userAction.followers);
 };

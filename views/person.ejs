@@ -24,10 +24,18 @@
 						<li>个性签名：<span><%= user.signature %></span></li>
 						<li>专业：<span><%= user.major %></span></li>
 						<li>等级：<span><%= user.level %></span></li>
+
 					</ul>
 					<% if(curUser.name === user.name){ %>
 						<button type="button" class="btn btn-info" id="editBtn">编辑</button> 
-					<% } %>
+					<% }else{ %>
+                        <% var rec=true;for(var i = 0;i < user.followed.length;i++){if(user.followed[i] == curUser.name) {rec = false;break;}} %>
+                         <% if(rec) {%>
+                            <button type="button" class="btn btn-primary" id ="follow" data-name="<%= user.name%>">关注他</button>
+                        <%}else{%>
+                            <button type="button" class="btn btn-primary" disabled="disabled">已经关注</button>
+                        <% }%>
+                    <% } %>
 			    </div>
 			</div>
 			
@@ -69,9 +77,28 @@
 			    </div>
 			</div>
 			<ul class="nav nav-tabs mtm">
-			    <li class="active"><a href="#ask" class="person-tab">提过的问题</a></li>
-			    <li><a href="#answer" class="person-tab">回答过的问题</a></li>
+			    <li class="active"><a href="javascript:void(0)" class="person-tab" data-action="ask">提过的问题</a></li>
+			    <li><a href="javascript:void(0);" class="person-tab" data-action="answer">回答过的问题</a></li>
+                <li><a href="javascript:void(0)" class="person-tab" data-action="followees" data-name="<%= user.name%>">关注了<%= user.follow.length %>人</a> </li>
+                <li><a href="javascript:void(0)" class="person-tab" data-action="followers" data-name="<%= user.name%>">有<%= user.followed.length %>人关注他</a> </li>
 			</ul>
+            <div class="" id = "question-area">
+                <% for(var i = 0;i < questions.length;i ++) {%>
+                    <p><a href="/question/<%= questions[i]._id%>"><%= questions[i].title %></a></p>
+                <%}%>
+            </div>
+            <div class="" id = "answer-area">
+                <% for(var i = 0;i < answers.length;i ++) {%>
+                    <p><a href="/question/<%= answers[i]._id%>"><%= answers[i].title %></a></p>
+                    <% for(var j = 0;j < answers[i]['answer'].length;j ++){ %>
+                        <p><%= answers[i]['answer'][j].content%></p>
+                    <% } %>
+                <%}%>
+            </div>
+            <div id = "follow-area">
+
+            </div>
+
 			<% }else{ %>
 			<h1>该用户还不存在！</h1>
 			<% } %>

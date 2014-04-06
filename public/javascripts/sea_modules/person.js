@@ -6,11 +6,18 @@
  */
 
 define(function(require, exports,module) {
+    var el_messagebox = $("#messagebox"),
+        el_message = $("#messagebox-message")
+        ;
+
+
+
     var header = require('header');
     var person = {
         init : function () {
             var el_user_input = $("#user-edit-body"),el_person_info = $("#person-info");
             header.init();
+            $("#answer-area").hide();
             $("#editBtn").on(
                 "click", 
                 function () {
@@ -19,21 +26,77 @@ define(function(require, exports,module) {
                 }
             );
 
+            $("#follow").on("click",function(){
+                var name = $(this).attr("data-name"),url = '/follow?name='+name,_this = this;
+                $.get(url,function(data){
+                    if(data.type == 'suc'){
+                        el_message.html("成功关注");
+                        el_messagebox.modal();
+                        $(_this).attr('disabled','disabled');
+                        $(_this).html('已经关注');
+                    }
+                });
+            })
+
+
+
             $(".person-tab").on(
                 "click",
                 function () {
-                    var href = $(this).attr("href");
-                    href = href.slice(1);
+                    var href = $(this).attr("data-action"),url;
+                    //href = href.slice(1);
                     if (href === "ask") {
-                        $(this).parent().addClass("active").next().removeClass("active");
+                        $(".person-tab").parent().removeClass("active");
+                        $(this).parent().addClass("active");
                         console.log($(this).next());
-                        $("#person-answer").hide();
-                        $("#person-ask").show().add;
+                        $("#answer-area").hide();
+                        $("#question-area").show();
+                        $("#follow-area").hide();
                     }
-                    else {
-                        $(this).parent().addClass("active").prev().removeClass("active");
-                        $("#person-answer").show();
-                        $("#person-ask").hide();
+                    else if(href === "answer"){
+                        $(".person-tab").parent().removeClass("active");
+                        $(this).parent().addClass("active");
+                        $("#answer-area").show();
+                        $("#question-area").hide();
+                        $("#follow-area").hide();
+                    }else if(href === "followers"){
+                        $(".person-tab").parent().removeClass("active");
+                        $(this).parent().addClass("active");
+                        $("#answer-area").hide();
+                        $("#question-area").hide();
+                        $("#follow-area").show().empty();
+                        url = '/followers/'+$(this).attr("data-name");
+                        $.get(url,function(data){
+                            var res = data.result,len = res.length,
+                            a = $("<a>")
+                            ;
+                            console.log(res);
+                            for(var i = 0;i < len;i ++){
+
+                                $("#follow-area").append(
+                                    $("<small>").append($("<a>").attr("href",res[i]['name']).html(res[i]['name']))
+                                )
+                                //console.log(a);
+                            }
+                        });
+                    }else{
+                        $(".person-tab").parent().removeClass("active");
+                        $(this).parent().addClass("active");
+                        $("#answer-area").hide();
+                        $("#question-area").hide();
+                        $("#follow-area").show().empty();
+                        url = '/followees/'+$(this).attr("data-name");
+                        $.get(url,function(data){
+                            var res = data.result,len = res.length
+                            a = $("<a>")
+                            ;
+                            console.log(res);
+                            for(var i = 0;i < len;i ++){
+                                $("#follow-area").append(
+                                    a.attr("href",res[i]['name']).html(res[i]['name'])
+                                )
+                            }
+                        });
                     }
                 }
             );

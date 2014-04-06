@@ -11,6 +11,8 @@ function User(user){
     this.major = user.major;
     this.signature = user.signature;
     this.level = user.level;
+    this.follow = user.follow||[];
+    this.followed = user.followed||[];
 };
 
 module.exports = User;
@@ -23,7 +25,9 @@ User.prototype.save = function(callback) {//存储用户信息
         sex: this.sex,
         major: this.major,
         signature: this.signature,
-        level: this.level
+        level: this.level,
+        follow : this.follow,
+        followed : this.followed
     };
 
     mongodb.doMongo(function(db,pool,err){
@@ -92,6 +96,7 @@ User.get = function(name, callback){//读取用户信息
             .then(function(err,doc){
                 pool.release(db);
                 if(doc){
+                    console.log(doc);
                     var user = new User(doc);
                     callback(err, user);//成功！返回查询的用户信息
                 } else {
@@ -167,11 +172,10 @@ User.getQuestion = function(callback){
         }
         db.collection("question", function(err, collection){
             if(err){
-
                 return callback(err);
             }
             collection.find().sort({time: -1}).toArray(function(err, items){
-//<<<<<<< HEAD
+
                 pool.release(db);
                 return callback(err, items);
             });
@@ -197,14 +201,7 @@ User.findQuestion = function(id, callback){
             });
         });
     });
-//=======
 
-    //             return callback(items);
-    //         });
-    //         pool.release(db);
-    //     })
-    // })
-//>>>>>>> 6d4a3a04fc16b2623e9342f5d17cb726e69651bc
 }
 
 User.answer = function(id, answer, callback){
@@ -470,3 +467,60 @@ User.collection = function (user, callback) {
         );
     });
 }
+
+User.updateUser = function(user,cb){
+    mongodb.doMongo(function(db,pool,err){
+       if(err) return cb(err);
+       db.collection(
+           'users',
+           function(err,collection){
+               if(err) return cb(err);
+               collection.update({name:user.name},user,function(err){
+                   if(err) return cb(err,'err');
+                   else return cb(err,'suc');
+               })
+           }
+       )
+    });
+}
+
+User.getFollowees = function(user,cb){
+    mongodb.doMongo(function(db,pool,err){
+        if(err) return cb(err);
+        var q = {"$in":user.follow};
+        //console.log(q);
+        db.collection(
+            'users',
+            function(err,collection){
+                if(err) return cb(err);
+                collection.find({'name': q}).toArray(function(err,result){
+                   if(err) return cb(err,null);
+                   else return cb(err,result);
+                });
+            }
+        )
+
+
+    });
+}
+
+User.getFollowers = function(user,cb){
+    mongodb.doMongo(function(db,pool,err){
+        if(err) return cb(err);
+        var q = {"$in":user.followed};
+        //console.log(q);
+        db.collection(
+            'users',
+            function(err,collection){
+                if(err) return cb(err);
+                collection.find({'name': q}).toArray(function(err,result){
+                    if(err) return cb(err,null);
+                    else return cb(err,result);
+                });
+            }
+        )
+
+
+    });
+}
+

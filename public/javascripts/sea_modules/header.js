@@ -8,6 +8,17 @@ define(function(require,exports,module){
             $('#ask').click(function(){
                $("#ask-modal").modal();
             });
+
+            $("#ask-modal-btn").on("click", function () {
+                $.post("/ask", {
+                    title: $("#ask-modal-title").val(),
+                    content: $("#ask-modal-content").val()
+                }, function (data) {
+                    if(data.status === "ok") {
+                        window.location.reload();
+                    }
+                });
+            });
         }
 
     }

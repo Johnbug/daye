@@ -12,7 +12,7 @@ define(function(require, exports,module){
                 $('#brand').css({'position':'fixed','top':'0','left':0});
             });
             header.init();
-            footer.init();
+            //footer.init();
             this.bindEvent();
 
             //m2.fire();
