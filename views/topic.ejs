@@ -1,0 +1,60 @@
+<% include header.ejs %>
+
+<div class="container row mt60">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn btn-info active" href="#fakelink"><span class="fui-user"></span><span>我关注的人的动态</span></a>
+                <a class="btn btn-inverse" href="#fakelink"><span class="fui-chat"></span><span>我关注的话题</span></a>
+                <a class="btn btn-primary" href="#fakelink"><span class="fui-heart"></span><span>我的收藏夹</span></a>
+                <a class="btn btn-warning" href="#fakelink"><span class="fui-eye"></span><span>探索和发现</span></a>
+            </div>
+        </div> <!-- /toolbar -->
+
+        <div class="col-md-12 mtm q-content">
+            <div class="row ptl">
+                <% for(var i=0; i<result.length; i++) { %>
+                <div class="col-sm-6 col-md-6">
+                    <div class="xs-topic">
+                        <h6 class="f16"><%= result[i].title %><small class="pll"><a href="#add" class="add-topic" data-id="<%= result[i]._id %>"><span class="fui-plus"></span></a></small>
+                        </h6>
+                        <small class="f14"><%= result[i].content %></small>
+                    </div>
+                    <hr />
+                </div>
+                <% } %>
+            </div>
+            <div class="panel panel-primary mtl">
+                <div class="panel-heading">
+                    <h3 class="panel-title">增加话题</h3>
+                </div>
+                <div class="panel-body" id="user-edit-body">
+                    <form class="mtl" role="form" method="post" action="/newTopic">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="title" placeholder="话题" />
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="话题描述" name="content"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">增加话题</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-14">
+        <div class="col-sm-12 mt50">
+            <img src="/images/x04.jpg" class="img-rounded img-responsive"/>
+        </div>
+    </div>
+</div>
+
+<% include footer.ejs %>
+<script>
+    seajs.use('topic',function(topic){
+        topic.init();
+    });
+</script>

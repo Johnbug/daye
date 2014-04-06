@@ -25,9 +25,7 @@ User.prototype.save = function(callback) {//存储用户信息
         sex: this.sex,
         major: this.major,
         signature: this.signature,
-        level: this.level,
-        follow : this.follow,
-        followed : this.followed
+        level: this.level
     };
 
     mongodb.doMongo(function(db,pool,err){
@@ -96,7 +94,6 @@ User.get = function(name, callback){//读取用户信息
             .then(function(err,doc){
                 pool.release(db);
                 if(doc){
-                    console.log(doc);
                     var user = new User(doc);
                     callback(err, user);//成功！返回查询的用户信息
                 } else {
@@ -524,3 +521,53 @@ User.getFollowers = function(user,cb){
     });
 }
 
+}
+
+//关注或者取消话题
+User.addTopic = function (user, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'users',
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.findOne(
+                    {name: user.name},
+                    function (err, result) {
+                        var flag = true;
+                        if (err) {
+                            return callback(err);
+                        }
+                        if (!result.topic) {
+                            result.topic = [];
+                        }
+                        for (var i = 0; i < result.topic.length; i++) {
+                            if (result.topic[i] === user.topicId) {
+                                result.topic.splice(i, 1);
+                                flag = false;
+                            }
+                        }
+                        if (flag) {
+                            result.topic.push(user.topicId);
+                        }
+                        collection.update(
+                            {name: user.name},
+                            result,
+                            function (err, item) {
+                                if (err) {
+                                    return callback(err);
+                                }
+                                pool.release(db);
+                                return callback(err, item);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+}

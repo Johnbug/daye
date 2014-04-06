@@ -8,16 +8,45 @@
 define(function (require, exports, module) {
     module.exports = {
         init: function () {
-            $("#ask-modal-btn").on("click", function () {
-                $.post("ask", {
-                    title: $("#ask-modal-title").val(),
-                    content: $("#ask-modal-content").val()
-                }, function (data) {
-                    if(data.status === "ok") {
-                        window.location.reload();
+            $.post(
+                "allTopic",
+                {},
+                function (data) {
+                    data = data.result;
+                    var options = "";
+                    for (var i = 0; i < data.length; i++) {
+                        options += "<option>" + data[i].title + "</option>";
                     }
-                });
-            });
+                    $("#ask-modal-topic").html(options);
+                }
+            );
+            this.bindEvent();
+        },
+        bindEvent: function () {
+            $("#ask-modal-btn").on(
+                "click", 
+                function () {
+                    var topic = "";
+                    $("#ask-modal-topic :selected").each(function () {
+                        topic += $(this).text()+',';
+                    });
+                    topic = topic.split(',');
+                    topic.pop();
+                    $.post(
+                        "ask",
+                        {
+                            title: $("#ask-modal-title").val(),
+                            content: $("#ask-modal-content").val(),
+                            topic: topic
+                        }, 
+                        function (data) {
+                            if(data.status === "ok") {
+                                window.location.reload();
+                            }
+                        }
+                    );
+                }
+            );
         }
     }
 });

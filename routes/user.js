@@ -76,10 +76,12 @@ var userAction = {
         var que = {};
         que.title = req.body.title;
         que.content = req.body.content;
+        que.topic = req.body.topic;
         que.answer = [];
         que.time = new Date();
         que.user = req.session.user.name;
         que.collector = [];
+        console.log(que);
         User.ask(que, function(err, result){
             if(err){
                 req.flash('error', err);
