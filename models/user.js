@@ -470,3 +470,52 @@ User.collection = function (user, callback) {
         );
     });
 }
+
+//关注或者取消话题
+User.addTopic = function (user, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'users',
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                collection.findOne(
+                    {name: user.name},
+                    function (err, result) {
+                        var flag = true;
+                        if (err) {
+                            return callback(err);
+                        }
+                        if (!result.topic) {
+                            result.topic = [];
+                        }
+                        for (var i = 0; i < result.topic.length; i++) {
+                            if (result.topic[i] === user.topicId) {
+                                result.topic.splice(i, 1);
+                                flag = false;
+                            }
+                        }
+                        if (flag) {
+                            result.topic.push(user.topicId);
+                        }
+                        collection.update(
+                            {name: user.name},
+                            result,
+                            function (err, item) {
+                                if (err) {
+                                    return callback(err);
+                                }
+                                pool.release(db);
+                                return callback(err, item);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+}
