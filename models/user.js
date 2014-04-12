@@ -26,8 +26,12 @@ User.prototype.save = function(callback) {//存储用户信息
         major: this.major,
         signature: this.signature,
         level: this.level,
+
         follow : this.follow,
-        followed : this.followed
+        followed : this.followed,
+
+        topic: []
+
     };
 
     mongodb.doMongo(function(db,pool,err){
@@ -590,5 +594,32 @@ User.getUserFollowQuestion = function(user,cb){
                 else cb(err,result);
             });
         })
+    });
+}
+
+
+
+//搜索
+User.search = function (keyword, callback) {
+    mongodb.doMongo(function (db, pool, err) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection(
+            'question', 
+            function (err, collection) {
+                if (err) {
+                    return callback(err);
+                }
+                console.log(keyword);
+                collection.find({$or: [{title: keyword}, {content: keyword}]}).toArray(function (err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    pool.release(db);
+                    return callback(err, result);
+                });
+            }
+        );
     });
 }
