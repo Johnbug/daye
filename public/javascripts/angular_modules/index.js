@@ -13,17 +13,25 @@ app.controller("content-box",function($scope,$http){
 
     $scope.state = 'person';
 
-    function Query(url,param,scope){
+    function QueryRecords(url,param){
+        console.log(param);
         $http.get(url,{
-            param : param
+            params : param
         }).success(function(res){
-                scope.data = res.result;
+                $scope.records = res.result;
             });
     }
 
+    function QueryTopics(url,param){
+        $http.get(url,{
+            params:param
+        }).success(function(res){
+                $scope.topics = res.result;
+            });
+    }
 
     //$scope.records = Records.query(urlconfig[$scope.state],{});
-    Query(urlconfig[$scope.state],{},$scope.records);
+    QueryRecords(urlconfig[$scope.state],{});
 
 
     //console.log($scope.records);
@@ -31,21 +39,17 @@ app.controller("content-box",function($scope,$http){
         if(state === "topic"){
             $scope.records = {};
             //$scope.topics  = Records.query(urlconfig[state],{});
-            Query(urlconfig[state],{},$scope.topics);
+            QueryTopics(urlconfig[state],{});
         }else if(state === "person"){
             $scope.topics = {};
             //$scope.records = Records.query(urlconfig[$scope.state],{});
-            Query(urlconfig[$scope.state],{},$scope.topics);
+            QueryRecords(urlconfig[$scope.state],{});
         }
     }
 
     $scope.setData = function(name){
-
-        //$scope.topics  = Records.query(urlconfig['topic'],{});
-        Query(urlconfig['topic'],{});
-        //$scope.records =  Records.query(urlconfig["topic_unique"],{topicname:name});
-        Query(urlconfig['topic_unique'],{topicname:name});
-
+        console.log(name);
+        QueryRecords(urlconfig['topic_unique'],{topicName:name});
     }
 
 

@@ -13,12 +13,12 @@
         </div> <!-- /toolbar -->
 
         <div class="col-md-12 mtm q-content" >
-            <button class="btn btn-primary btn-sm" ng-repeat = "record in topics.data" ng-click="setData('record.title')">
+            <button class="btn btn-primary btn-sm" ng-repeat = "record in topics" ng-click="setData(record.title)">
                 {{record.title}}
             </button>
             <ul class="q-content-lists">
 
-                <li class="pbm q-content-list" ng-repeat="record in records.data">
+                <li class="pbm q-content-list" ng-repeat="record in records">
                     <a href="/question/{{record._id}}">
                         <h5>{{record.title}}<small class="mlm">{{record.user}}</small></h5>
                     </a>

@@ -259,6 +259,7 @@ var userAction = {
         var name = req.session.user.name;
 
         User.get(name,function(err,user){
+            console.log(user);
            User.getUserFollowQuestion(user,function(err,result){
                res.send({
                    'result' : result

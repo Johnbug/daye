@@ -140,7 +140,7 @@ module.exports = function(app){
      * 
      * @return {Array} questions 问题组成的数组
      */
-    app.post(
+    app.get(
         '/getHot',
         function (req, res) {
             Topic.getHot(function (err, result) {

@@ -521,7 +521,7 @@ User.getFollowers = function(user,cb){
     });
 }
 
-}
+
 
 //关注或者取消话题
 User.addTopic = function (user, callback) {
@@ -569,5 +569,24 @@ User.addTopic = function (user, callback) {
                 );
             }
         );
+    });
+}
+
+User.getUserFollowQuestion = function(user,cb){
+    mongodb.doMongo(function(db,pool,err){
+        if(err){
+            return cb(err);
+        }
+        var q = {"$in":user.follow};
+        db.collection('question',function(err,collection){
+            if(err){
+                return cb(err);
+            }
+
+            collection.find({'user':q}).toArray(function(err,result){
+                if(err) cb(err,null);
+                else cb(err,result);
+            });
+        })
     });
 }
