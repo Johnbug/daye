@@ -147,7 +147,7 @@ module.exports = function(app){
                 if (err) {
                     req.flash('error', err);
                 }
-                res.send({questions: result});
+                res.send({result: result});
             });
         } 
     );

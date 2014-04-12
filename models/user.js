@@ -11,8 +11,8 @@ function User(user){
     this.major = user.major;
     this.signature = user.signature;
     this.level = user.level;
-    this.follow = user.follow||[];
-    this.followed = user.followed||[];
+    this.follow = user.follow||new Array();
+    this.followed = user.followed||new Array();
 };
 
 module.exports = User;
@@ -25,7 +25,9 @@ User.prototype.save = function(callback) {//存储用户信息
         sex: this.sex,
         major: this.major,
         signature: this.signature,
-        level: this.level
+        level: this.level,
+        follow : this.follow,
+        followed : this.followed
     };
 
     mongodb.doMongo(function(db,pool,err){

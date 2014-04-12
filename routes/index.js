@@ -146,7 +146,7 @@ module.exports = function(app){
                     if (err) {
                         req.flash('error', err);
                     }
-                    res.send({title: 'collection', list: result});
+                    res.send({title: 'collection', result: result});
                 }
             );   
         }

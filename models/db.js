@@ -33,7 +33,7 @@ var settings = require('../settings'),
     exports.doMongo = function(callback){
         pool.acquire(function(err, db) {
             if (err) {
-                console.log(err);
+
                 //more code...
             } else {
 

@@ -8,7 +8,9 @@ app.controller("content-box",function($scope,$http){
     var urlconfig = {
         'person' : '/followQ',
         'topic' : '/getMyTopic',
-        'topic_unique' : '/questionForTopic'
+        'topic_unique' : '/questionForTopic',
+        'hot' : '/gethot',
+        'collection' :'/collection'
     }
 
     $scope.state = 'person';
@@ -30,6 +32,7 @@ app.controller("content-box",function($scope,$http){
             });
     }
 
+
     //$scope.records = Records.query(urlconfig[$scope.state],{});
     QueryRecords(urlconfig[$scope.state],{});
 
@@ -44,13 +47,20 @@ app.controller("content-box",function($scope,$http){
             $scope.topics = {};
             //$scope.records = Records.query(urlconfig[$scope.state],{});
             QueryRecords(urlconfig[$scope.state],{});
+        }else if(state === "hot" ){
+            $scope.topics = {};
+            QueryRecords(urlconfig[state],{});
+        }else{
+            $scope.topics = {};
+            QueryRecords(urlconfig[state],{});
         }
     }
 
     $scope.setData = function(name){
-        console.log(name);
+        //console.log(name);
         QueryRecords(urlconfig['topic_unique'],{topicName:name});
     }
+
 
 
 });

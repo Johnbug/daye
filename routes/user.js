@@ -24,8 +24,11 @@ var userAction = {
 
         var newUser = new User({
             name: name,
-            password: password_md5
+            password: password_md5,
+            follow : new Array(name),
+            followed : new Array(name)
         });
+        console.log(newUser);
         //使用user.js中的user.get() 函数来读取用户信息
         User.get(newUser.name, function(err, user){
             //如果有返回值，表示存在用户
@@ -81,7 +84,7 @@ var userAction = {
         que.time = new Date();
         que.user = req.session.user.name;
         que.collector = [];
-        console.log(que);
+        //console.log(que);
         User.ask(que, function(err, result){
             if(err){
                 req.flash('error', err);
@@ -95,7 +98,7 @@ var userAction = {
 
             var name = req.body.name,
                 password = req.body.password;
-            console.log(name);
+            //console.log(name);
             var md5 = crypto.createHash('md5'),
                 password_md5 = md5.update(password).digest('hex');
 
@@ -231,7 +234,7 @@ var userAction = {
         User.get(name,function(err,user){
             //console.log(name);
             User.getFollowees(user,function(err,result){
-                console.log(result);
+                //console.log(result);
                 res.send({
                     'result' : result
                 })
@@ -259,7 +262,7 @@ var userAction = {
         var name = req.session.user.name;
 
         User.get(name,function(err,user){
-            console.log(user);
+            //console.log(user);
            User.getUserFollowQuestion(user,function(err,result){
                res.send({
                    'result' : result
