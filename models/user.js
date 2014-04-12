@@ -521,8 +521,6 @@ User.getFollowers = function(user,cb){
     });
 }
 
-}
-
 //关注或者取消话题
 User.addTopic = function (user, callback) {
     mongodb.doMongo(function (db, pool, err) {
@@ -570,4 +568,28 @@ User.addTopic = function (user, callback) {
             }
         );
     });
+}
+
+
+User.getUserFollowQuestion = function(user,cb){
+    mongodb.doMongo(function(db,pool,err){
+
+        if(err) return cb(err);
+
+        var q = {"$in":user.follow};
+
+        //console.log(q);
+        db.collection(
+            "question",
+            function(err,collection){
+                collection.find(
+                    {'user':q}
+                ).sort({'time':-1}).toArray(function(err,result){
+                        //console.log(result);
+                       if(err) cb(err,null);
+                        else cb(err,result);
+                    });
+            }
+        )
+    })
 }

@@ -255,6 +255,18 @@ var userAction = {
         });
     },
 
+    userFollowQuestion : function(req,res){
+        var name = req.session.user.name;
+
+        User.get(name,function(err,user){
+           User.getUserFollowQuestion(user,function(err,result){
+               res.send({
+                   'result' : result
+               })
+           }) ;
+        });
+    },
+
 
     logout:function(req,res){
         delete req.session.user;

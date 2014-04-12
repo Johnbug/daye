@@ -86,7 +86,7 @@ module.exports = function(app){
      * @return {string} result[i].title 话题i标题
      * @return {string} result[i].content 话题i内容
      */
-    app.post(
+    app.get(
         '/getMyTopic',
         function (req, res) {
             if (!req.session.user) {
@@ -115,21 +115,21 @@ module.exports = function(app){
      * 
      * questions[i]包含名为question的collection下的所有字段，不一一枚举
      */
-    app.post(
+    app.get(
         '/questionForTopic',
         function (req, res) {
             /**
              * 话题名字
              * @type {string}
              */
-            var topicName = req.body.topicName;
+            var topicName = req.query.topicName;
             Topic.getQuestionForTopic(
                 topicName,
                 function (err, result) {
                     if (err) {
                         req.flash('error', err);
                     }
-                    res.send({questions: result});
+                    res.send({result: result});
                 }
             );
         }

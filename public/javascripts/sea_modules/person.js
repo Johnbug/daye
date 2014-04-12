@@ -93,7 +93,7 @@ define(function(require, exports,module) {
                             console.log(res);
                             for(var i = 0;i < len;i ++){
                                 $("#follow-area").append(
-                                    a.attr("href",res[i]['name']).html(res[i]['name'])
+                                    $("<small>").append($("<a>").attr("href",res[i]['name']).html(res[i]['name']))
                                 )
                             }
                         });

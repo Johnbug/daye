@@ -232,4 +232,6 @@ module.exports = function(app){
 
     app.get('/followees/:name',userAction.followees);
     app.get('/followers/:name',userAction.followers);
+
+    app.get('/followQ',userAction.userFollowQuestion);
 };

@@ -13,6 +13,7 @@ define(function (require, exports, module) {
                 {},
                 function (data) {
                     data = data.result;
+                    console.log(data);
                     var options = "";
                     for (var i = 0; i < data.length; i++) {
                         options += "<option>" + data[i].title + "</option>";

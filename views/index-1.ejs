@@ -1,29 +1,32 @@
 <% include header.ejs %>
 
-<div class="container row mt60">
+<div class="container row mt60" ng-controller="content-box">
     <div class="col-lg-8 col-md-8 col-sm-12">
 
         <div class="btn-toolbar">
             <div class="btn-group">
-                <a class="btn btn-info active" href="#fakelink"><span class="fui-user"></span><span>我关注的人的动态</span></a>
-                <a class="btn btn-inverse" href="#fakelink"><span class="fui-chat"></span><span>我关注的话题</span></a>
-                <a class="btn btn-primary" href="#fakelink"><span class="fui-heart"></span><span>我的收藏夹</span></a>
-                <a class="btn btn-warning" href="#fakelink"><span class="fui-eye"></span><span>探索和发现</span></a>
+                <a class="btn btn-info active" ng-click="changeState('person')"><span class="fui-user"></span><span>我关注的人的动态</span></a>
+                <a class="btn btn-inverse" ng-click="changeState('topic')"><span class="fui-chat"></span><span>我关注的话题</span></a>
+                <a class="btn btn-primary" ng-click="changeState('person')"><span class="fui-heart"></span><span>我的收藏夹</span></a>
+                <a class="btn btn-warning" ng-click="changeState('person')"><span class="fui-eye"></span><span>探索和发现</span></a>
             </div>
         </div> <!-- /toolbar -->
 
-        <div class="col-md-12 mtm q-content">
+        <div class="col-md-12 mtm q-content" >
+            <button class="btn btn-primary btn-sm" ng-repeat = "record in topics.data" ng-click="setData('record.title')">
+                {{record.title}}
+            </button>
             <ul class="q-content-lists">
-                <% for(var i=0; i<list.length; i++) {%>
-                    <li class="pbm q-content-list">
-                        <a href="/question/<%= list[i]._id %>">
-                            <h5><%= list[i].title %><small class="mlm"><%= list[i].user %></small></h5>
-                        </a>
-                        <p><%= list[i].content %></p>
-                        <small class="subtitle"><%= list[i].answer.length %>条评论</small>
-                        <a href="#collect" qid="<%= list[i]._id %>" class="collect"><small class="pll subtitle">收藏</small></a>
-                    </li>
-                <% } %> 
+
+                <li class="pbm q-content-list" ng-repeat="record in records.data">
+                    <a href="/question/{{record._id}}">
+                        <h5>{{record.title}}<small class="mlm">{{record.user}}</small></h5>
+                    </a>
+                    <p>{{ record.content }}</p>
+                    <small class="subtitle">{{record.answer.length}}条评论</small>
+                    <a href="#collect" qid="{{record._id}}" class="collect"><small class="pll subtitle">收藏</small></a>
+                </li>
+
             </ul>  
         </div>
     </div>
@@ -38,5 +41,7 @@
 <script>
     seajs.use('index',function(index){
         index.init();
+        //index._angularRender();
     });
 </script>
+<script src="/javascripts/angular_modules/index.js"></script>
