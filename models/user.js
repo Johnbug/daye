@@ -212,7 +212,7 @@ User.answer = function(id, answer, callback){
             }
             collection.findOne({_id: Number(id)}, function(err, result){
                 answer.num = result.answer.length;
-                collection.update({_id: Number(id)}, {$push: {answer: answer}}, function(err, result){
+                collection.update({_id: Number(id)}, {$push: {answer: answer}, $inc: {answers: 1}}, function(err, result){
                     if(err){
                         return callback(err);
                     }
@@ -521,6 +521,8 @@ User.getFollowers = function(user,cb){
     });
 }
 
+}
+
 //关注或者取消话题
 User.addTopic = function (user, callback) {
     mongodb.doMongo(function (db, pool, err) {
@@ -568,28 +570,4 @@ User.addTopic = function (user, callback) {
             }
         );
     });
-}
-
-
-User.getUserFollowQuestion = function(user,cb){
-    mongodb.doMongo(function(db,pool,err){
-
-        if(err) return cb(err);
-
-        var q = {"$in":user.follow};
-
-        //console.log(q);
-        db.collection(
-            "question",
-            function(err,collection){
-                collection.find(
-                    {'user':q}
-                ).sort({'time':-1}).toArray(function(err,result){
-                        //console.log(result);
-                       if(err) cb(err,null);
-                        else cb(err,result);
-                    });
-            }
-        )
-    })
 }
