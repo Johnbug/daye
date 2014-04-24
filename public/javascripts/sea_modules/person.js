@@ -13,10 +13,12 @@ define(function(require, exports,module) {
 
 
     var header = require('header');
+    var footer = require("footer");
     var person = {
         init : function () {
             var el_user_input = $("#user-edit-body"),el_person_info = $("#person-info");
             header.init();
+            footer.init();
             $("#answer-area").hide();
             $("#editBtn").on(
                 "click", 

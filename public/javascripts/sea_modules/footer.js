@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     module.exports = {
         init: function () {
             $.post(
-                "allTopic",
+                "/allTopic",
                 {},
                 function (data) {
                     data = data.result;
@@ -34,7 +34,7 @@ define(function (require, exports, module) {
                     topic = topic.split(',');
                     topic.pop();
                     $.post(
-                        "ask",
+                        "/ask",
                         {
                             title: $("#ask-modal-title").val(),
                             content: $("#ask-modal-content").val(),
